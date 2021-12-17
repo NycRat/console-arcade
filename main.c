@@ -3,8 +3,6 @@
 #include <windows.h>
 #include <time.h>
 
-#define clear() printf("\e[1;1H\e[2J") 
-
 const int arrSize = 80;
 const int maxValue = 16;
 int array[arrSize];
@@ -84,7 +82,7 @@ void render()
     t++;
   }
   str[t]='\0';
-  clear();
+  system("cls");
   printf("%s", str);
   free(str);
 }
