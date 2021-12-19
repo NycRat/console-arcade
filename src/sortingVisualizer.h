@@ -2,20 +2,18 @@
 
 int array[WIDTH];
 int arrIndex=0;
-int running=1;
 
 clock_t start, stop;
 
-void render();
-void update();
-void initialize();
+void SV_Render();
+void SV_Update();
+void SV_Initialize();
 
-int runSorting()
+int SV_Run()
 {
-  initialize();
-  display = malloc((HEIGHT)*(WIDTH+1));
+  SV_Initialize();
   setConsoleColour(FOREGROUND_RED);
-  render();
+  SV_Render();
   setConsoleColour(FOREGROUND_BLUE);
   start = clock();
   while (running)
@@ -23,16 +21,22 @@ int runSorting()
     stop = clock();
     if (stop - start >= 10) {
       start = clock();
-      update();
-      render();
+      SV_Update();
+      SV_Render();
     }
   }
   getch();
   return 0;
 }
 
-void initialize()
+void SV_Initialize()
 {
+  running=1;
+  buffer = malloc(sizeof(char*)*HEIGHT);
+  for (int i=0; i<HEIGHT; i++)
+  {
+    buffer[i] = malloc(sizeof(char)*WIDTH);
+  }
   srand(time(NULL));
 
   for (int i=0; i<WIDTH; i++)
@@ -41,7 +45,7 @@ void initialize()
   }
 }
 
-void update()
+void SV_Update()
 {
   for (int i=arrIndex+1; i<WIDTH; i++)
   {
@@ -59,37 +63,39 @@ void update()
   }
 }
 
-void render()
+void SV_Render()
 {
-  int t=0;
   for (int y=0; y<HEIGHT; y++)
   {
     for (int x=0; x<WIDTH; x++)
     {
       if (array[x]>=HEIGHT-y)
       {
-        if (display[t] != '#')
+        if (buffer[y][x] != '#')
         {
           setCursorPosition(x,y);
-          printf("%c", 219);
+          printf("%c", BLOCK);
         }
-        display[t]='#';
+        buffer[y][x]='#';
       }
       else
       {
-        if (display[t] != ' ')
+        if (buffer[y][x] == 'L')
         {
           setCursorPosition(x,y);
-          printf("%c", 32);
+          printf(" ");
+          buffer[y][x] = ' ';
         }
-        display[t]=' ';
+        if (buffer[y][x] == '#')
+        {
+          setCursorPosition(x,y);
+          printf(" ");
+          buffer[y][x]='L';
+        }
       }
-      t++;
     }
-    display[t]='\n';
-    t++;
   }
-  display[t]='\0';
+  buffer[HEIGHT-1][WIDTH]='\0';
   // system("cls");
   // cls();
   // printf("%s", display);

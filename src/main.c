@@ -1,6 +1,7 @@
 #include "stuff.h"
 #include "sortingVisualizer.h"
 #include "pong.h"
+#include "menu.h"
 
 int main()
 {
@@ -10,10 +11,9 @@ int main()
   //   printf("%c", 178);
   // }
   // getch();
-  runSorting();
-  setConsoleColour(FOREGROUND_RED);
-  // runPong();
-  setCursorPosition(0,0);
-  printf("xd");
+  // SV_Run();
+  // PONG_Run();
+  MENU_Run();
+
   getch();
 }

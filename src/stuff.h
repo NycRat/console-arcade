@@ -8,12 +8,33 @@
 #include <windows.h>
 #include <time.h>
 #include <conio.h>
+#include <math.h>
+
+#define BLOCK 219
 
 #define WIDTH 110
 #define HEIGHT 30
 
-char* display;
+#define BLACK			0
+#define BLUE			1
+#define GREEN			2
+#define CYAN			3
+#define RED				4
+#define MAGENTA			5
+#define BROWN			6
+#define LIGHTGRAY		7
+#define DARKGRAY		8
+#define LIGHTBLUE		9
+#define LIGHTGREEN		10
+#define LIGHTCYAN		11
+#define LIGHTRED		12
+#define LIGHTMAGENTA	13
+#define YELLOW			14
+#define WHITE			15
+
+char** buffer;
 double dt=0;
+short running=0;
 
 void cls()
 {
