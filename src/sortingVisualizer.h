@@ -12,20 +12,27 @@ void SV_Initialize();
 int SV_Run()
 {
   SV_Initialize();
-  setConsoleColour(FOREGROUND_RED);
+  setConsoleColour(RED);
   SV_Render();
-  setConsoleColour(FOREGROUND_BLUE);
+  // setConsoleColour(BLUE);
   start = clock();
   while (running)
   {
     stop = clock();
-    if (stop - start >= 10) {
+    if (stop - start >= 20) {
       start = clock();
       SV_Update();
       SV_Render();
     }
   }
-  getch();
+  setConsoleColour(GREEN);
+  buffer = malloc(sizeof(char*)*HEIGHT);
+  for (int i=0; i<HEIGHT; i++)
+  {
+    buffer[i] = malloc(sizeof(char)*WIDTH);
+  }
+  SV_Render();
+  while (getch()!='a'){}
   return 0;
 }
 
@@ -37,8 +44,10 @@ void SV_Initialize()
   {
     buffer[i] = malloc(sizeof(char)*WIDTH);
   }
+  cls();
   srand(time(NULL));
 
+  arrIndex=0;
   for (int i=0; i<WIDTH; i++)
   {
     array[i] = rand()%HEIGHT+1;
@@ -74,7 +83,7 @@ void SV_Render()
         if (buffer[y][x] != '#')
         {
           setCursorPosition(x,y);
-          printf("%c", BLOCK);
+          printf("%c", BLOCK+2);
         }
         buffer[y][x]='#';
       }
@@ -96,9 +105,5 @@ void SV_Render()
     }
   }
   buffer[HEIGHT-1][WIDTH]='\0';
-  // system("cls");
-  // cls();
-  // printf("%s", display);
-  // free(display);
-  Sleep(1);
+  setCursorPosition(0,0);
 }

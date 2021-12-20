@@ -35,6 +35,9 @@
 char** buffer;
 double dt=0;
 short running=0;
+struct timeval FRAME_begin, FRAME_end;
+double tempTime = 0;
+int frames = 0;
 
 void cls()
 {

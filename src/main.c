@@ -2,6 +2,7 @@
 #include "sortingVisualizer.h"
 #include "pong.h"
 #include "menu.h"
+#include "flappyBird.h"
 
 int main()
 {
@@ -11,9 +12,5 @@ int main()
   //   printf("%c", 178);
   // }
   // getch();
-  // SV_Run();
-  // PONG_Run();
-  MENU_Run();
-
-  getch();
+  return MENU_Run();
 }
