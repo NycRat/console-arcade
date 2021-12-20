@@ -51,12 +51,13 @@ int PONG_Run()
       PONG_P2_Y += PONG_PADDLE_SPEED * dt;
       PONG_P2_Y = ((PONG_P2_Y + PONG_PADDLE_SIZE < HEIGHT) ? PONG_P2_Y : HEIGHT - PONG_PADDLE_SIZE);
     }
-    gettimeofday(&FRAME_end, NULL);
-    dt = ((FRAME_end.tv_sec - FRAME_begin.tv_sec) * 1000000 + (FRAME_end.tv_usec - FRAME_begin.tv_usec));
-    
-    setCursorPosition(0,1);
-    printf("%f", dt);
-    dt /= 1000;
+    dt=0;
+    while (dt<=0)
+    {
+      gettimeofday(&FRAME_end, NULL);
+      dt = ((FRAME_end.tv_sec - FRAME_begin.tv_sec) * 1000000 + (FRAME_end.tv_usec - FRAME_begin.tv_usec));
+      dt /= 1000;
+    }
     tempTime += dt;
     if (tempTime >= 1000)
     {

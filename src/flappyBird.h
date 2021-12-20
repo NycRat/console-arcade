@@ -16,14 +16,18 @@ int FB_Run()
     gettimeofday(&FRAME_begin, NULL);
     FB_Update();
     FB_Render();
-    dt = 0;
-    while (dt < 0.000001)
+    dt=0;
+    while (dt<=0)
     {
       gettimeofday(&FRAME_end, NULL);
       dt = ((FRAME_end.tv_sec - FRAME_begin.tv_sec) * 1000000 + (FRAME_end.tv_usec - FRAME_begin.tv_usec));
-      dt /= 1000000;
+      dt /= 1000;
     }
     tempTime+=dt;
+    if (tempTime>=1000)
+    {
+      tempTime-=1000;
+    }
   }
 }
 
