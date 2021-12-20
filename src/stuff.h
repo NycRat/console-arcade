@@ -9,6 +9,7 @@
 #include <time.h>
 #include <conio.h>
 #include <math.h>
+#include <sys/time.h>
 
 #define BLOCK 219
 
