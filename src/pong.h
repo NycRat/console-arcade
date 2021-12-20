@@ -1,8 +1,7 @@
 #include "stuff.h"
-#include <sys/time.h>
-#define PONG_BALL_SPEED 80
+#define PONG_BALL_SPEED 0.08
 #define PONG_BALL_SIZE 1
-#define PONG_PADDLE_SPEED 40
+#define PONG_PADDLE_SPEED 0.04
 #define PONG_PADDLE_SIZE 3
 
 double ballX = 30;
@@ -52,17 +51,16 @@ int PONG_Run()
       PONG_P2_Y += PONG_PADDLE_SPEED * dt;
       PONG_P2_Y = ((PONG_P2_Y + PONG_PADDLE_SIZE < HEIGHT) ? PONG_P2_Y : HEIGHT - PONG_PADDLE_SIZE);
     }
-    dt = 0;
-    while (dt < 0.000001)
-    {
-      gettimeofday(&FRAME_end, NULL);
-      dt = ((FRAME_end.tv_sec - FRAME_begin.tv_sec) * 1000000 + (FRAME_end.tv_usec - FRAME_begin.tv_usec));
-      dt /= 1000000;
-    }
+    gettimeofday(&FRAME_end, NULL);
+    dt = ((FRAME_end.tv_sec - FRAME_begin.tv_sec) * 1000000 + (FRAME_end.tv_usec - FRAME_begin.tv_usec));
+    
+    setCursorPosition(0,1);
+    printf("%f", dt);
+    dt /= 1000;
     tempTime += dt;
-    if (tempTime >= 1)
+    if (tempTime >= 1000)
     {
-      tempTime -= 1;
+      tempTime -= 1000;
       setCursorPosition(0, 0);
       printf("FPS: %d", frames);
       frames = 0;
@@ -111,27 +109,43 @@ void PONG_Initialize()
 
 void PONG_Update()
 {
-  if (ballX + PONG_BALL_SPEED * cos(ballAngle) * dt >= WIDTH)
+  if (ballX + PONG_BALL_SPEED * cos(ballAngle) * dt >= WIDTH - 3 &&
+    ballY >= PONG_P2_Y - 0.5 && ballY <= PONG_P2_Y + PONG_PADDLE_SIZE + 0.5)
   {
-    ballX = WIDTH / 2;
-    ballY = HEIGHT / 2;
-    ballAngle = (rand()%2)*M_PI;
-    PONG_P1_Score++;
-    setConsoleColour(CYAN);
-    setCursorPosition(WIDTH / 4, 1);
-    printf("%d", PONG_P1_Score);
-    setConsoleColour(WHITE);
+    PONG_Collision(2);
   }
-  if (ballX + PONG_BALL_SPEED * cos(ballAngle) * dt <= 0)
+  else
   {
-    ballX = WIDTH / 2;
-    ballY = HEIGHT / 2;
-    ballAngle = (rand()%2)*M_PI;
-    PONG_P2_Score++;
-    setConsoleColour(BLUE);
-    setCursorPosition(WIDTH - WIDTH / 4, 1);
-    printf("%d", PONG_P2_Score);
-    setConsoleColour(WHITE);
+    if (ballX + PONG_BALL_SPEED * cos(ballAngle) * dt >= WIDTH)
+    {
+      ballX = WIDTH / 2;
+      ballY = HEIGHT / 2;
+      ballAngle = (rand()%2)*M_PI;
+      PONG_P1_Score++;
+      setConsoleColour(CYAN);
+      setCursorPosition(WIDTH / 4, 1);
+      printf("%d", PONG_P1_Score);
+      setConsoleColour(WHITE);
+    }
+  }
+  if (ballX + PONG_BALL_SPEED * cos(ballAngle) * dt <= 2 && 
+    ballY >= PONG_P1_Y - 0.5 && ballY <= PONG_P1_Y + PONG_PADDLE_SIZE + 0.5)
+  {
+    PONG_Collision(0);
+  }
+  else
+  {
+    if (ballX + PONG_BALL_SPEED * cos(ballAngle) * dt <= 0)
+    {
+      ballX = WIDTH / 2;
+      ballY = HEIGHT / 2;
+      ballAngle = (rand()%2)*M_PI;
+      PONG_P2_Score++;
+      setConsoleColour(BLUE);
+      setCursorPosition(WIDTH - WIDTH / 4, 1);
+      printf("%d", PONG_P2_Score);
+      setConsoleColour(WHITE);
+    }
   }
   if (ballY + PONG_BALL_SPEED * sin(ballAngle) * dt >= HEIGHT)
   {
@@ -140,20 +154,6 @@ void PONG_Update()
   if (ballY + PONG_BALL_SPEED * sin(ballAngle) * dt <= 2)
   {
     PONG_Collision(3);
-  }
-  if (ballX >= WIDTH - 3)
-  {
-    if (ballY >= PONG_P2_Y - 0.5 && ballY <= PONG_P2_Y + PONG_PADDLE_SIZE + 0.5)
-    {
-      PONG_Collision(2);
-    }
-  }
-  if (ballX <= 2)
-  {
-    if (ballY >= PONG_P1_Y - 0.5 && ballY <= PONG_P1_Y + PONG_PADDLE_SIZE + 0.5)
-    {
-      PONG_Collision(0);
-    }
   }
   ballX += PONG_BALL_SPEED * cos(ballAngle) * dt;
   ballY += PONG_BALL_SPEED * sin(ballAngle) * dt;
