@@ -3,27 +3,26 @@
 int array[WIDTH];
 int arrIndex=0;
 
-clock_t start, stop;
+void SV_render();
+void SV_update();
+void SV_initialize();
 
-void SV_Render();
-void SV_Update();
-void SV_Initialize();
-
-int SV_Run()
+int SV_run()
 {
-  SV_Initialize();
+  SV_initialize();
   setConsoleColour(RED);
-  SV_Render();
+  SV_render();
   // setConsoleColour(BLUE);
-  start = clock();
+  gettimeofday(&begin, NULL);
   while (running)
   {
-    stop = clock();
-    if (stop - start >= 20) {
-      start = clock();
-      SV_Update();
-      SV_Render();
+    gettimeofday(&end, NULL);
+    if ((end.tv_sec - begin.tv_sec) * 1000000 + end.tv_usec - begin.tv_usec>= 20000) {
+      gettimeofday(&begin, NULL);
+      SV_update();
+      SV_render();
     }
+    setCursorPosition(0,0);
   }
   setConsoleColour(GREEN);
   buffer = malloc(sizeof(char*)*HEIGHT);
@@ -31,12 +30,12 @@ int SV_Run()
   {
     buffer[i] = malloc(sizeof(char)*WIDTH);
   }
-  SV_Render();
+  SV_render();
   while (getch()!='a'){}
   return 0;
 }
 
-void SV_Initialize()
+void SV_initialize()
 {
   running=1;
   buffer = malloc(sizeof(char*)*HEIGHT);
@@ -54,7 +53,7 @@ void SV_Initialize()
   }
 }
 
-void SV_Update()
+void SV_update()
 {
   for (int i=arrIndex+1; i<WIDTH; i++)
   {
@@ -72,7 +71,7 @@ void SV_Update()
   }
 }
 
-void SV_Render()
+void SV_render()
 {
   for (int y=0; y<HEIGHT; y++)
   {

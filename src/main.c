@@ -6,11 +6,10 @@
 
 int main()
 {
-  // for (int i=0; i<=255; i++)
-  // {
-  //   // 160 a
-  //   printf("%c", 178);
-  // }
-  // getch();
-  return MENU_Run();
+  for (int i=0; i<=255; i++)
+  {
+    printf("%c", i);
+  }
+  getch();
+  return MENU_run();
 }
