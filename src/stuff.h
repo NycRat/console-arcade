@@ -39,6 +39,21 @@ short running = 0;
 struct timeval begin, end;
 double tempTime = 0;
 int frames = 0;
+int option = 0;
+short keyPressed = 0;
+
+struct Vector2
+{
+  double x, y;
+};
+
+int getKeyActuallyPressed(short vKey)
+{
+  if (GetAsyncKeyState(vKey))
+  {
+    return GetAsyncKeyState(vKey);
+  }
+}
 
 void cls()
 {
@@ -79,15 +94,11 @@ void setConsoleColour(unsigned short colour)
 
 void disposeBuffer()
 {
-  for (int i = 0; i < HEIGHT; i++)
-  {
-    free(buffer[i]);
-  }
   free(buffer);
-  buffer = malloc(sizeof(char *) * HEIGHT);
+  buffer = (char **)malloc(sizeof(char *) * HEIGHT);
   for (int i = 0; i < HEIGHT; i++)
   {
-    buffer[i] = malloc(sizeof(char) * WIDTH);
+    buffer[i] = (char *)malloc(sizeof(char) * WIDTH);
   }
 }
 
