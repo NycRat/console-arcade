@@ -1,21 +1,18 @@
 #include "stuff.h"
 
-void MENU_render();
-void MENU_initialize();
-void MENU_processInput();
-
-int MENU_executeOption();
-
 int ARCADE_run();
 int CASINO_run();
 int SV_run();
 
 int MENU_run()
 {
-  MENU_initialize();
+  MENU_initialize("ARCADE", "CASINO", "SORTING VISUALIZER");
   while (running)
   {
-    MENU_processInput();
+    if (MENU_processInput(ARCADE_run, CASINO_run, SV_run))
+    {
+      MENU_initialize("ARCADE", "CASINO", "SORTING VISUALIZER");
+    }
     MENU_render();
     // testingj
     setCursorPosition(0, 0);
@@ -23,20 +20,21 @@ int MENU_run()
   }
 }
 
-void MENU_processInput()
+int MENU_processInput(int (*f1)(), int (*f2)(), int (*f3)())
 {
   if (getKeyActuallyPressed(VK_SPACE)) // SPACE
   {
     if (!keyPressed)
     {
       keyPressed = 1;
-      if (MENU_executeOption() == 1)
+      if (MENU_executeOption(f1, f2, f3) == 1)
       {
         running = 0;
-        return;
+        return 0;
       }
-      MENU_initialize();
+      return 1;
     }
+    return 0;
   }
   else if (getKeyActuallyPressed(0x26)) // UP
   {
@@ -64,21 +62,22 @@ void MENU_processInput()
   {
     keyPressed = 0;
   }
+  return 0;
 }
 
-int MENU_executeOption()
+int MENU_executeOption(int (*f1)(), int (*f2)(), int (*f3)())
 {
   if (option == 0)
   {
-    return ARCADE_run();
+    return f1();
   }
   else if (option == 1)
   {
-    return CASINO_run();
+    return f2();
   }
   else if (option == 2)
   {
-    return SV_run();
+    return f3();
   }
   else if (option == 3)
   {
@@ -87,7 +86,7 @@ int MENU_executeOption()
   return -1;
 }
 
-void MENU_initialize()
+void MENU_initialize(char *o1, char *o2, char *o3)
 {
   option = 0;
   running = 1;
@@ -95,11 +94,11 @@ void MENU_initialize()
   cls();
   setConsoleColour(WHITE);
   setCursorPosition(WIDTH / 3 + 5, 15);
-  printf("ARCADE");
+  printf("%s", o1);
   setCursorPosition(WIDTH / 3 + 5, 19);
-  printf("CASINO");
+  printf("%s", o2);
   setCursorPosition(WIDTH / 3 - 1, 23);
-  printf("SORTING VISUALIZER");
+  printf("%s", o3);
   setCursorPosition(WIDTH / 3 - 2, 27);
   printf("EXIT");
 }

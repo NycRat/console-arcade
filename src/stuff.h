@@ -42,6 +42,11 @@ int frames = 0;
 int option = 0;
 short keyPressed = 0;
 
+void MENU_render();
+void MENU_initialize(char *o1, char *o2, char *o3);
+int MENU_processInput(int (*f1)(), int (*f2)(), int (*f3)());
+int MENU_executeOption(int (*f1)(), int (*f2)(), int (*f3)());
+
 struct Vector2
 {
   double x, y;
