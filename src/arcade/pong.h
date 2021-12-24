@@ -121,7 +121,7 @@ void PONG_initialize()
   setConsoleColour(CYAN);
   setCursorPosition(WIDTH / 4, 1);
   printf("%d", PONG_p1Score);
-  setConsoleColour(BLUE);
+  setConsoleColour(GREEN);
   setCursorPosition(WIDTH - WIDTH / 4, 1);
   printf("%d", PONG_p2Score);
   setConsoleColour(WHITE);
@@ -184,7 +184,7 @@ void PONG_update()
       PONG_ballVel.x = cos(PONG_ballAngle);
       PONG_ballVel.y = sin(PONG_ballAngle);
       PONG_p2Score++;
-      setConsoleColour(BLUE);
+      setConsoleColour(GREEN);
       setCursorPosition(WIDTH - WIDTH / 4, 1);
       printf("%d", PONG_p2Score);
       setConsoleColour(WHITE);
@@ -217,7 +217,7 @@ void PONG_render()
         }
         buffer[y][x] = '#';
       }
-      else if (y >= PONG_p1Y && y <= PONG_p1Y + PONG_PADDLE_SIZE && x == 2)
+      else if (y >= PONG_p1Y && y < PONG_p1Y + PONG_PADDLE_SIZE && x == 2)
       {
         if (buffer[y][x] != '1')
         {
@@ -228,11 +228,11 @@ void PONG_render()
         }
         buffer[y][x] = '1';
       }
-      else if (y >= PONG_p2Y && y <= PONG_p2Y + PONG_PADDLE_SIZE && x == WIDTH - 3)
+      else if (y >= PONG_p2Y && y < PONG_p2Y + PONG_PADDLE_SIZE && x == WIDTH - 3)
       {
         if (buffer[y][x] != '2')
         {
-          setConsoleColour(BLUE);
+          setConsoleColour(GREEN);
           setCursorPosition(x, y);
           printf("%c", BLOCK);
           setConsoleColour(WHITE);

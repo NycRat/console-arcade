@@ -68,8 +68,23 @@ int FB_run()
       tempTime -= 1000;
     }
     setCursorPosition(0, 0);
-    printf("%f", FB_playerY);
   }
+  setCursorPosition(0, 0);
+  printf("Your Score: %d\n", FB_score);
+  printf("Press [R] to play again");
+  while (1)
+  {
+    if (getKeyActuallyPressed('R'))
+    {
+      break;
+    }
+    if (getKeyActuallyPressed(VK_ESCAPE))
+    {
+      return 0;
+    }
+  }
+  FB_run();
+  return 0;
 }
 
 void FB_initialize()
@@ -88,7 +103,10 @@ void FB_initialize()
   {
     FB_pipeX[i] = WIDTH + i * 40;
     FB_pipeY[i] = rand() % (HEIGHT - FB_PIPE_GAP - 8) + 4;
+    FB_pipeCanScore[i] = 1;
   }
+  setCursorPosition(0, 0);
+  printf("Your Score: 0");
 }
 
 void FB_update()
@@ -100,6 +118,7 @@ void FB_update()
     {
       FB_pipeX[i] = WIDTH + FB_PIPE_SIZE;
       FB_pipeY[i] = rand() % (HEIGHT - FB_PIPE_GAP - 8) + 4;
+      FB_pipeCanScore[i] = 1;
     }
   }
 
@@ -123,7 +142,29 @@ void FB_update()
   {
     FB_playerVelY = 0;
     FB_playerY = HEIGHT - 1;
-    printf("lolo bad");
+    running = 0;
+  }
+  for (int i = 0; i < 3; i++)
+  {
+    if (FB_pipeX[i] - FB_PIPE_SIZE / 2 <= 10)
+    {
+      if (FB_pipeX[i] + FB_PIPE_SIZE / 2 > 10)
+      {
+        if (FB_playerY < FB_pipeY[i] || FB_playerY > FB_pipeY[i] + FB_PIPE_GAP)
+        {
+          running = 0;
+        }
+        else
+        {
+          if (FB_pipeCanScore[i])
+          {
+            FB_score++;
+            FB_pipeCanScore[i] = 0;
+          }
+        }
+        break;
+      }
+    }
   }
 }
 
@@ -184,5 +225,7 @@ void FB_render()
       }
     }
   }
+  setCursorPosition(0, 0);
+  printf("Your Score: %d", FB_score);
   setCursorPosition(0, 0);
 }
