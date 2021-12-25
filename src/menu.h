@@ -1,21 +1,17 @@
 #include "stuff.h"
 
-int ARCADE_run();
-int CASINO_run();
-int SV_run();
-
-int MENU_run()
-{
-  MENU_initialize("ARCADE", "CASINO", "SORTING VISUALIZER");
-  while (running)
-  {
-    if (MENU_processInput(ARCADE_run, CASINO_run, SV_run))
-    {
-      MENU_initialize("ARCADE", "CASINO", "SORTING VISUALIZER");
-    }
-    MENU_render();
-  }
-}
+// int MENU_run()
+// {
+//   MENU_initialize("ARCADE", "CASINO", "SORTING VISUALIZER");
+//   while (running)
+//   {
+//     if (MENU_processInput(ARCADE_run, CASINO_run, SV_run))
+//     {
+//       MENU_initialize("ARCADE", "CASINO", "SORTING VISUALIZER");
+//     }
+//     MENU_render();
+//   }
+// }
 
 int MENU_processInput(int (*f1)(), int (*f2)(), int (*f3)())
 {

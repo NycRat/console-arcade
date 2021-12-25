@@ -1,4 +1,4 @@
-#include "../stuff.h"
+#include "stuff.h"
 
 void ARCADE_initialize();
 

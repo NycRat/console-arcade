@@ -1,13 +1,9 @@
 #include "stuff.h"
 
-#include "tempcat/sortingVisualizer.h"
-#include "arcade/arcadeMenu.h"
-#include "arcade/flappyBird.h"
-#include "arcade/pong.h"
-#include "arcade/snake.h"
-#include "casino/casinoMenu.h"
-#include "casino/blackjack.h"
-#include "casino/slots.h"
+#include "arcadeMenu.h"
+#include "flappyBird.h"
+#include "pong.h"
+#include "snake.h"
 #include "menu.h"
 
 int main()
@@ -17,5 +13,5 @@ int main()
   //   printf("%c", i);
   // }
   // getch();
-  return MENU_run();
+  return ARCADE_run();
 }

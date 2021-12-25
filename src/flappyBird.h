@@ -1,4 +1,4 @@
-#include "../stuff.h"
+#include "stuff.h"
 
 #define FB_PIPE_GAP 6
 #define FB_PIPE_SPEED 0.02

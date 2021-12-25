@@ -1,4 +1,4 @@
-#include "../stuff.h"
+#include "stuff.h"
 #define PONG_BALL_SPEED 0.08
 #define PONG_BALL_SIZE 1
 #define PONG_PADDLE_SPEED 0.04

@@ -1,4 +1,4 @@
-#include "../stuff.h"
+#include "stuff.h"
 #define SNAKE_DELAY 200
 
 void SNAKE_initialize();
