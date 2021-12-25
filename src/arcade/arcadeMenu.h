@@ -17,8 +17,6 @@ int ARCADE_run()
     }
     // ARCADE_processInput();
     MENU_render();
-    setCursorPosition(0, 0);
-    printf("%d", option);
   }
   return 0;
 }

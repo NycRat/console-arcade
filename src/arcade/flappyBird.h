@@ -55,6 +55,7 @@ int FB_run()
       FB_keyPressed = 0;
     }
 
+    Sleep(1);
     dt = 0;
     while (dt <= 0)
     {
@@ -96,6 +97,7 @@ void FB_initialize()
   FB_playerVelY = 0;
   FB_playerY = HEIGHT / 2;
   FB_playerVelY = 0;
+  FB_score = 0;
 
   srand(time(NULL));
 

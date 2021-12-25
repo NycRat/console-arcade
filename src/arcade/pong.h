@@ -31,6 +31,7 @@ int PONG_run()
     PONG_update();
     PONG_render();
     dt = 0;
+    Sleep(1);
     while (dt < 1)
     {
       gettimeofday(&end, NULL);
@@ -39,6 +40,7 @@ int PONG_run()
     }
 
     tempTime += dt;
+
     if (tempTime >= 1000)
     {
       tempTime -= 1000;

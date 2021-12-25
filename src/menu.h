@@ -14,14 +14,12 @@ int MENU_run()
       MENU_initialize("ARCADE", "CASINO", "SORTING VISUALIZER");
     }
     MENU_render();
-    // testingj
-    setCursorPosition(0, 0);
-    printf("%d", option);
   }
 }
 
 int MENU_processInput(int (*f1)(), int (*f2)(), int (*f3)())
 {
+  Sleep(1);
   if (getKeyActuallyPressed(VK_SPACE)) // SPACE
   {
     if (!keyPressed)

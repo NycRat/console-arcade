@@ -17,9 +17,6 @@ int CASINO_run()
       running = 1;
     }
     MENU_render();
-
-    setCursorPosition(0, 0);
-    printf("L");
   }
   return 0;
 }
