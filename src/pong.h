@@ -5,8 +5,8 @@
 #define PONG_PADDLE_SIZE 3
 
 double PONG_ballAngle;
-struct Vector2 PONG_ballPos;
-struct Vector2 PONG_ballVel;
+struct Vector2f PONG_ballPos;
+struct Vector2f PONG_ballVel;
 int PONG_p1Score;
 int PONG_p2Score;
 double PONG_p1Y;

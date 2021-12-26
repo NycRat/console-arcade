@@ -8,6 +8,7 @@
 #include <windows.h>
 #include <time.h>
 #include <conio.h>
+// #define _USE_MATH_DEFINES
 #include <math.h>
 #include <sys/time.h>
 
@@ -50,9 +51,14 @@ void MENU_initialize(char *o1, char *o2, char *o3);
 int MENU_processInput(int (*f1)(), int (*f2)(), int (*f3)());
 int MENU_executeOption(int (*f1)(), int (*f2)(), int (*f3)());
 
-struct Vector2
+struct Vector2f
 {
   double x, y;
+};
+
+struct Vector2
+{
+  short x, y;
 };
 
 int getKeyActuallyPressed(short vKey)

@@ -18,6 +18,7 @@ int ARCADE_run()
     // ARCADE_processInput();
     MENU_render();
   }
+  cls();
   return 0;
 }
 

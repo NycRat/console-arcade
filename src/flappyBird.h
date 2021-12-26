@@ -55,7 +55,7 @@ int FB_run()
       FB_keyPressed = 0;
     }
 
-    Sleep(1);
+    // Sleep(1);
     dt = 0;
     while (dt <= 0)
     {
@@ -152,7 +152,7 @@ void FB_update()
     {
       if (FB_pipeX[i] + FB_PIPE_SIZE / 2 > 10)
       {
-        if (FB_playerY < FB_pipeY[i] || FB_playerY > FB_pipeY[i] + FB_PIPE_GAP)
+        if (FB_playerY <= FB_pipeY[i] || FB_playerY > FB_pipeY[i] + FB_PIPE_GAP)
         {
           running = 0;
         }
