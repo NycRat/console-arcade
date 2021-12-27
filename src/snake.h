@@ -30,10 +30,10 @@ struct SNAKE_snake
 
 void add(struct SNAKE_snake *snake)
 {
-  if (snake->size+1 > snake->maxSize)
+  if (snake->size + 1 > snake->maxSize)
   {
-    struct SNAKE_part * newParts = calloc(snake->maxSize * 2, sizeof(struct SNAKE_part));
-    for (int i=0; i<snake->size; i++)
+    struct SNAKE_part *newParts = calloc(snake->maxSize * 2, sizeof(struct SNAKE_part));
+    for (int i = 0; i < snake->size; i++)
     {
       newParts[i] = snake->parts[i];
     }
@@ -41,10 +41,10 @@ void add(struct SNAKE_snake *snake)
     snake->parts = newParts;
     snake->maxSize *= 2;
   }
-  enum directions tempDirection = snake->parts[snake->size-1].direction;
+  enum directions tempDirection = snake->parts[snake->size - 1].direction;
   snake->parts[snake->size].direction = tempDirection;
-  snake->parts[snake->size].pos.x = snake->parts[snake->size-1].pos.x - (tempDirection == Right) + (tempDirection == Left);
-  snake->parts[snake->size].pos.y = snake->parts[snake->size-1].pos.y - (tempDirection == Down) + (tempDirection == Up);
+  snake->parts[snake->size].pos.x = snake->parts[snake->size - 1].pos.x - (tempDirection == Right) + (tempDirection == Left);
+  snake->parts[snake->size].pos.y = snake->parts[snake->size - 1].pos.y - (tempDirection == Down) + (tempDirection == Up);
   snake->size++;
 }
 
@@ -64,7 +64,7 @@ int SNAKE_run()
   {
     Sleep(1);
     setCursorPosition(0, 1);
- 
+
     gettimeofday(&end, NULL);
     tempTime = (end.tv_sec - begin.tv_sec) * 1000000 + (end.tv_usec - begin.tv_usec);
     tempTime /= 1000;
@@ -110,7 +110,6 @@ void SNAKE_initialize()
     SNAKE_snake.parts[i].direction = Right;
   }
 
-
   srand(time(NULL));
   SNAKE_applePos.x = (rand() % (WIDTH - 4)) / 4;
   SNAKE_applePos.y = (rand() % (HEIGHT - 4)) / 2;
@@ -126,9 +125,9 @@ void SNAKE_addMove(enum directions direction)
     enum directions previousDirection;
     if (SNAKE_moveAddIndex != 0)
     {
-      previousDirection = SNAKE_moveBuffer[SNAKE_moveAddIndex-1];
+      previousDirection = SNAKE_moveBuffer[SNAKE_moveAddIndex - 1];
     }
-    else 
+    else
     {
       previousDirection = SNAKE_snake.parts[0].direction;
     }
@@ -172,34 +171,52 @@ void SNAKE_update()
   for (int i = SNAKE_snake.size - 1; i > 0; i--)
   {
     SNAKE_move(&SNAKE_snake.parts[i], SNAKE_snake.parts[i].direction);
-    SNAKE_snake.parts[i].direction = SNAKE_snake.parts[i-1].direction;
+    SNAKE_snake.parts[i].direction = SNAKE_snake.parts[i - 1].direction;
   }
   SNAKE_move(&SNAKE_snake.parts[0], SNAKE_snake.parts[0].direction);
 
   struct Vector2 snakeHeadPos;
   snakeHeadPos.x = SNAKE_snake.parts[0].pos.x;
   snakeHeadPos.y = SNAKE_snake.parts[0].pos.y;
-  if (buffer[snakeHeadPos.y][snakeHeadPos.x] == '#') //&&
-      // SNAKE_snake.parts[SNAKE_snake.size-1].pos.x != snakeHeadPos.x && 
-      // SNAKE_snake.parts[SNAKE_snake.size-1].pos.y != snakeHeadPos.y)
+
+  if (snakeHeadPos.x > WIDTH / 4 - 1 || snakeHeadPos.x < 0 ||
+      snakeHeadPos.y > HEIGHT / 2 - 1 || snakeHeadPos.y < 0)
   {
     running = 0;
-  }
-  if (snakeHeadPos.x > WIDTH/4-1 || snakeHeadPos.x < 0 ||
-      snakeHeadPos.y > HEIGHT/2-1 || snakeHeadPos.y < 0)
-  {
-    running = 0;
+    return;
   }
 
-  if (snakeHeadPos.x == SNAKE_applePos.x && 
+  if (buffer[snakeHeadPos.y][snakeHeadPos.x] == '#') //&&
+                                                     // SNAKE_snake.parts[SNAKE_snake.size-1].pos.x != snakeHeadPos.x &&
+                                                     // SNAKE_snake.parts[SNAKE_snake.size-1].pos.y != snakeHeadPos.y)
+  {
+    running = 0;
+    return;
+  }
+
+  if (snakeHeadPos.x == SNAKE_applePos.x &&
       snakeHeadPos.y == SNAKE_applePos.y) // eats apple
   {
     setCursorPosition(SNAKE_applePos.x, SNAKE_applePos.y);
     printf("    ");
     setCursorPosition(SNAKE_applePos.x, SNAKE_applePos.y + 1);
     printf("    ");
-    SNAKE_applePos.x = (rand() % (WIDTH - 4)) / 4;
-    SNAKE_applePos.y = (rand() % (HEIGHT - 4)) / 2;
+    struct Vector2 tempApplePos;
+    if (SNAKE_snake.size < ((WIDTH - 4) / 4) + ((HEIGHT - 4) / 2))
+    {
+      while (1)
+      {
+        tempApplePos.x = (rand() % (WIDTH - 4)) / 4;
+        tempApplePos.y = (rand() % (HEIGHT - 4)) / 2;
+        if (buffer[tempApplePos.y][tempApplePos.x] != '#' &&
+            tempApplePos.x != snakeHeadPos.x && tempApplePos.y != snakeHeadPos.y)
+        {
+          SNAKE_applePos.x = tempApplePos.x;
+          SNAKE_applePos.y = tempApplePos.y;
+          break;
+        }
+      }
+    }
     add(&SNAKE_snake);
   }
 }
