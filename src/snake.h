@@ -1,5 +1,5 @@
 #include "stuff.h"
-#define SNAKE_DELAY 200
+#define SNAKE_DELAY 100
 
 void SNAKE_initialize();
 void SNAKE_update();

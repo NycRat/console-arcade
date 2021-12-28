@@ -14,9 +14,10 @@
 #include <math.h>
 #include <sys/time.h>
 
+#define BLOCK (unsigned char)219
 // #define BLOCK 219
 // #define BLOCK '#'
-#define BLOCK "\u2588"
+// #define BLOCK "\u2588"
 // #define BLOCK "\xE2\x96\x88"
 
 #define WIDTH 110
