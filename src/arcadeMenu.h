@@ -1,4 +1,4 @@
-#include "stuff.h"
+#include "utils.h"
 
 void ARCADE_initialize();
 
@@ -50,18 +50,34 @@ AISJIDJANCOANSONACINICSNAOSCNOICNCSAOCINCASNCASNCOSNACONAsoase
 
   // xd
   printf(
-      "           %c             %c%c%c%c%c%c%c%c%c%c%c%c        %c%c%c%c%c%c%c%c              %c            %c%c%c%c%c%c       %c%c%c%c%c%c%c%c%c\n"
+      "           %c             %c%c%c%c%c%c%c%c%c%c%c%c        %c%c%c%c%c%c%c%c              %c            "
+      "%c%c%c%c%c%c       %c%c%c%c%c%c%c%c%c\n"
       "          %c %c            %c           %c      %c        %c            %c %c           %c     %c%c     %c\n"
       "         %c   %c           %c            %c    %c                     %c   %c          %c       %c    %c\n"
       "        %c     %c          %c           %c    %c                     %c     %c         %c        %c   %c\n"
-      "       %c       %c         %c%c%c%c%c%c%c%c%c%c%c%c     %c                    %c       %c        %c        %c   %c\n"
-      "      %c%c%c%c%c%c%c%c%c%c%c        %c  %c%c%c           %c                   %c%c%c%c%c%c%c%c%c%c%c       %c        %c   %c%c%c%c%c%c%c%c\n"
+      "       %c       %c         %c%c%c%c%c%c%c%c%c%c%c%c     %c                    %c       %c        %c        %c   "
+      "%c\n"
+      "      %c%c%c%c%c%c%c%c%c%c%c        %c  %c%c%c           %c                   %c%c%c%c%c%c%c%c%c%c%c       %c   "
+      "     %c   %c%c%c%c%c%c%c%c\n"
       "     %c           %c       %c    %c%c%c         %c                  %c           %c      %c        %c   %c\n"
       "    %c             %c      %c     %c%c%c        %c                 %c             %c     %c        %c   %c\n"
       "   %c               %c     %c       %c%c%c      %c                %c               %c    %c       %c    %c\n"
       "  %c                 %c    %c         %c%c%c     %c         %c    %c                 %c   %c     %c%c     %c\n"
-      " %c                   %c   %c           %c%c%c    %c%c%c%c%c%c%c%c%c    %c                   %c  %c%c%c%c%c%c       %c%c%c%c%c%c%c%c%c\n",
-      BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK);
+      " %c                   %c   %c           %c%c%c    %c%c%c%c%c%c%c%c%c    %c                   %c  %c%c%c%c%c%c   "
+      "    %c%c%c%c%c%c%c%c%c\n",
+      BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK,
+      BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK,
+      BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK,
+      BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK,
+      BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK,
+      BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK,
+      BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK,
+      BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK,
+      BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK,
+      BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK,
+      BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK,
+      BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK,
+      BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK, BLOCK);
   // no way this is the only solution
   setConsoleColour(WHITE);
   setCursorPosition(WIDTH - 32, HEIGHT - 1);

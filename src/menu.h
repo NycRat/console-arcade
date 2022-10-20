@@ -1,4 +1,4 @@
-#include "stuff.h"
+#include "utils.h"
 
 // int MENU_run()
 // {
@@ -15,8 +15,9 @@
 
 int MENU_processInput(int (*f1)(), int (*f2)(), int (*f3)())
 {
-  Sleep(1);
-  if (getKeyActuallyPressed(VK_SPACE)) // SPACE
+  // Sleep(1);
+  // if (getKeyActuallyPressed(VK_SPACE)) // SPACE
+  if (1) // SPACE
   {
     if (!keyPressed)
     {

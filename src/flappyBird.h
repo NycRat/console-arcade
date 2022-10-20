@@ -1,4 +1,4 @@
-#include "stuff.h"
+#include "utils.h"
 
 #define FB_PIPE_GAP 6
 #define FB_PIPE_SPEED 0.02
@@ -33,11 +33,12 @@ int FB_run()
     gettimeofday(&begin, NULL);
     FB_update();
     FB_render();
-    if (getKeyActuallyPressed(VK_ESCAPE))
-    {
-      return 0;
-    }
-    if (GetAsyncKeyState(0x20))
+    // if (getKeyActuallyPressed(VK_ESCAPE))
+    // {
+    //   return 0;
+    // }
+    // if (GetAsyncKeyState(0x20))
+    if (1)
     {
       if (!FB_keyPressed)
       {
@@ -79,10 +80,10 @@ int FB_run()
     {
       break;
     }
-    if (getKeyActuallyPressed(VK_ESCAPE))
-    {
-      return 0;
-    }
+    // if (getKeyActuallyPressed(VK_ESCAPE))
+    // {
+    //   return 0;
+    // }
   }
   FB_run();
   return 0;
@@ -190,11 +191,9 @@ void FB_render()
         short pipeHere = 0;
         for (int i = 0; i < FB_NUM_PIPES; i++)
         {
-          if (x > FB_pipeX[i] - FB_PIPE_SIZE / 2 &&
-              x <= FB_pipeX[i] + FB_PIPE_SIZE / 2)
+          if (x > FB_pipeX[i] - FB_PIPE_SIZE / 2 && x <= FB_pipeX[i] + FB_PIPE_SIZE / 2)
           {
-            if (y <= FB_pipeY[i] ||
-                y > FB_pipeY[i] + FB_PIPE_GAP)
+            if (y <= FB_pipeY[i] || y > FB_pipeY[i] + FB_PIPE_GAP)
             {
               if (buffer[y][x] != '#')
               {

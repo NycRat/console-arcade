@@ -1,4 +1,4 @@
-#include "stuff.h"
+#include "utils.h"
 #define SNAKE_DELAY 100
 
 void SNAKE_initialize();
@@ -43,8 +43,10 @@ void add(struct SNAKE_snake *snake)
   }
   enum directions tempDirection = snake->parts[snake->size - 1].direction;
   snake->parts[snake->size].direction = tempDirection;
-  snake->parts[snake->size].pos.x = snake->parts[snake->size - 1].pos.x - (tempDirection == Right) + (tempDirection == Left);
-  snake->parts[snake->size].pos.y = snake->parts[snake->size - 1].pos.y - (tempDirection == Down) + (tempDirection == Up);
+  snake->parts[snake->size].pos.x =
+      snake->parts[snake->size - 1].pos.x - (tempDirection == Right) + (tempDirection == Left);
+  snake->parts[snake->size].pos.y =
+      snake->parts[snake->size - 1].pos.y - (tempDirection == Down) + (tempDirection == Up);
   snake->size++;
 }
 
@@ -62,7 +64,7 @@ int SNAKE_run()
   double tempTime = 0;
   while (running)
   {
-    Sleep(1);
+    // Sleep(1);
     setCursorPosition(0, 1);
 
     gettimeofday(&end, NULL);
@@ -84,12 +86,13 @@ int SNAKE_run()
     {
       break;
     }
-    if (getKeyActuallyPressed(VK_ESCAPE))
-    {
-      return 0;
-    }
+    // if (getKeyActuallyPressed(VK_ESCAPE))
+    // {
+    //   return 0;
+    // }
   }
   SNAKE_run();
+  return 0;
 }
 
 void SNAKE_initialize()
@@ -131,8 +134,7 @@ void SNAKE_addMove(enum directions direction)
     {
       previousDirection = SNAKE_snake.parts[0].direction;
     }
-    if (previousDirection <= 2 && direction > 2 ||
-        previousDirection > 2 && direction <= 2)
+    if (previousDirection <= 2 && direction > 2 || previousDirection > 2 && direction <= 2)
     {
       SNAKE_moveBuffer[SNAKE_moveAddIndex] = direction;
       SNAKE_moveAddIndex++;
@@ -179,8 +181,7 @@ void SNAKE_update()
   snakeHeadPos.x = SNAKE_snake.parts[0].pos.x;
   snakeHeadPos.y = SNAKE_snake.parts[0].pos.y;
 
-  if (snakeHeadPos.x > WIDTH / 4 - 1 || snakeHeadPos.x < 0 ||
-      snakeHeadPos.y > HEIGHT / 2 - 1 || snakeHeadPos.y < 0)
+  if (snakeHeadPos.x > WIDTH / 4 - 1 || snakeHeadPos.x < 0 || snakeHeadPos.y > HEIGHT / 2 - 1 || snakeHeadPos.y < 0)
   {
     running = 0;
     return;
@@ -194,8 +195,7 @@ void SNAKE_update()
     return;
   }
 
-  if (snakeHeadPos.x == SNAKE_applePos.x &&
-      snakeHeadPos.y == SNAKE_applePos.y) // eats apple
+  if (snakeHeadPos.x == SNAKE_applePos.x && snakeHeadPos.y == SNAKE_applePos.y) // eats apple
   {
     setCursorPosition(SNAKE_applePos.x, SNAKE_applePos.y);
     printf("    ");
@@ -208,8 +208,8 @@ void SNAKE_update()
       {
         tempApplePos.x = (rand() % (WIDTH - 4)) / 4;
         tempApplePos.y = (rand() % (HEIGHT - 4)) / 2;
-        if (buffer[tempApplePos.y][tempApplePos.x] != '#' &&
-            tempApplePos.x != snakeHeadPos.x && tempApplePos.y != snakeHeadPos.y)
+        if (buffer[tempApplePos.y][tempApplePos.x] != '#' && tempApplePos.x != snakeHeadPos.x &&
+            tempApplePos.y != snakeHeadPos.y)
         {
           SNAKE_applePos.x = tempApplePos.x;
           SNAKE_applePos.y = tempApplePos.y;
@@ -223,59 +223,59 @@ void SNAKE_update()
 
 void SNAKE_processInput()
 {
-  if (GetAsyncKeyState(VK_ESCAPE))
-  {
-    running = 0;
-    return;
-  }
-  if (GetAsyncKeyState(0x26)) // up
-  {
-    if (!SNAKE_keysPressed[0])
-    {
-      SNAKE_addMove(Up);
-      SNAKE_keysPressed[0] = 1;
-    }
-  }
-  else
-  {
-    SNAKE_keysPressed[0] = 0;
-  }
-  if (GetAsyncKeyState(0x28)) // down
-  {
-    if (!SNAKE_keysPressed[1])
-    {
-      SNAKE_addMove(Down);
-      SNAKE_keysPressed[1] = 1;
-    }
-  }
-  else
-  {
-    SNAKE_keysPressed[1] = 0;
-  }
-  if (GetAsyncKeyState(0x25)) // left
-  {
-    if (!SNAKE_keysPressed[2])
-    {
-      SNAKE_addMove(Left);
-      SNAKE_keysPressed[2] = 1;
-    }
-  }
-  else
-  {
-    SNAKE_keysPressed[2] = 0;
-  }
-  if (GetAsyncKeyState(0x27)) // right
-  {
-    if (!SNAKE_keysPressed[3])
-    {
-      SNAKE_addMove(Right);
-      SNAKE_keysPressed[3] = 1;
-    }
-  }
-  else
-  {
-    SNAKE_keysPressed[3] = 0;
-  }
+  // if (GetAsyncKeyState(VK_ESCAPE))
+  // {
+  //   running = 0;
+  //   return;
+  // }
+  // if (GetAsyncKeyState(0x26)) // up
+  // {
+  //   if (!SNAKE_keysPressed[0])
+  //   {
+  //     SNAKE_addMove(Up);
+  //     SNAKE_keysPressed[0] = 1;
+  //   }
+  // }
+  // else
+  // {
+  //   SNAKE_keysPressed[0] = 0;
+  // }
+  // if (GetAsyncKeyState(0x28)) // down
+  // {
+  //   if (!SNAKE_keysPressed[1])
+  //   {
+  //     SNAKE_addMove(Down);
+  //     SNAKE_keysPressed[1] = 1;
+  //   }
+  // }
+  // else
+  // {
+  //   SNAKE_keysPressed[1] = 0;
+  // }
+  // if (GetAsyncKeyState(0x25)) // left
+  // {
+  //   if (!SNAKE_keysPressed[2])
+  //   {
+  //     SNAKE_addMove(Left);
+  //     SNAKE_keysPressed[2] = 1;
+  //   }
+  // }
+  // else
+  // {
+  //   SNAKE_keysPressed[2] = 0;
+  // }
+  // if (GetAsyncKeyState(0x27)) // right
+  // {
+  //   if (!SNAKE_keysPressed[3])
+  //   {
+  //     SNAKE_addMove(Right);
+  //     SNAKE_keysPressed[3] = 1;
+  //   }
+  // }
+  // else
+  // {
+  //   SNAKE_keysPressed[3] = 0;
+  // }
 }
 
 void SNAKE_render()

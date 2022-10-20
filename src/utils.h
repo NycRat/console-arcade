@@ -1,13 +1,17 @@
-#ifndef ALL_THE_STUFF
-#define ALL_THE_STUFF
+#ifndef LOADED_UTILS
+#define LOADED_UTILS
 
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
-#include <time.h>
+
+#ifdef _WIN32
 #include <conio.h>
+#include <windows.h>
+#endif
+
+#include <time.h>
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
 #endif
@@ -64,6 +68,7 @@ struct Vector2
   short x, y;
 };
 
+#ifdef _WIN32
 int getKeyActuallyPressed(short vKey)
 {
   if (GetAsyncKeyState(vKey))
@@ -78,7 +83,6 @@ void cls()
 
   CONSOLE_SCREEN_BUFFER_INFO csbi;
   COORD topLeft = {0, 0};
-
   if (!GetConsoleScreenBufferInfo(hOut, &csbi))
   {
     abort();
@@ -108,6 +112,45 @@ void setConsoleColour(unsigned short colour)
   const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
   SetConsoleTextAttribute(hOut, colour);
 }
+#else
+
+#include <term.h>
+#include <unistd.h>
+
+int getKeyActuallyPressed(short vKey)
+{
+  // if (GetAsyncKeyState(vKey))
+  // {
+  //   return GetAsyncKeyState(vKey);
+  // }
+  return 1;
+}
+
+void cls()
+{
+}
+
+// temp
+#define ERR 0
+
+void setCursorPosition(int x, int y)
+{
+  // int err;
+  // if (!cur_term)
+  // {
+  //   if (setupterm(NULL, STDOUT_FILENO, &err) == ERR)
+  //   {
+  //     return;
+  //   }
+  // }
+  // putp(tparm(tigetstr("cup"), y, x, 0, 0, 0, 0, 0, 0, 0));
+}
+
+void setConsoleColour(unsigned short colour)
+{
+}
+
+#endif
 
 void disposeBuffer()
 {
