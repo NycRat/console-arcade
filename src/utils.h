@@ -21,8 +21,7 @@
 #define BLOCK (unsigned char)219
 // #define BLOCK 219
 // #define BLOCK '#'
-// #define BLOCK "\u2588"
-// #define BLOCK "\xE2\x96\x88"
+// #define BLOCK "\u2588" #define BLOCK "\xE2\x96\x88"
 
 #define WIDTH 110
 #define HEIGHT 30
@@ -147,6 +146,17 @@ void setCursorPosition(int x, int y)
 }
 
 void setConsoleColour(unsigned short colour)
+{
+}
+
+// just to stop error for now
+#define VK_ESCAPE 0
+#define VK_SPACE 0
+int GetAsyncKeyState(int e)
+{
+  return 1;
+}
+void Sleep(int e)
 {
 }
 

@@ -64,7 +64,7 @@ int SNAKE_run()
   double tempTime = 0;
   while (running)
   {
-    // Sleep(1);
+    Sleep(1);
     setCursorPosition(0, 1);
 
     gettimeofday(&end, NULL);
@@ -223,59 +223,59 @@ void SNAKE_update()
 
 void SNAKE_processInput()
 {
-  // if (GetAsyncKeyState(VK_ESCAPE))
-  // {
-  //   running = 0;
-  //   return;
-  // }
-  // if (GetAsyncKeyState(0x26)) // up
-  // {
-  //   if (!SNAKE_keysPressed[0])
-  //   {
-  //     SNAKE_addMove(Up);
-  //     SNAKE_keysPressed[0] = 1;
-  //   }
-  // }
-  // else
-  // {
-  //   SNAKE_keysPressed[0] = 0;
-  // }
-  // if (GetAsyncKeyState(0x28)) // down
-  // {
-  //   if (!SNAKE_keysPressed[1])
-  //   {
-  //     SNAKE_addMove(Down);
-  //     SNAKE_keysPressed[1] = 1;
-  //   }
-  // }
-  // else
-  // {
-  //   SNAKE_keysPressed[1] = 0;
-  // }
-  // if (GetAsyncKeyState(0x25)) // left
-  // {
-  //   if (!SNAKE_keysPressed[2])
-  //   {
-  //     SNAKE_addMove(Left);
-  //     SNAKE_keysPressed[2] = 1;
-  //   }
-  // }
-  // else
-  // {
-  //   SNAKE_keysPressed[2] = 0;
-  // }
-  // if (GetAsyncKeyState(0x27)) // right
-  // {
-  //   if (!SNAKE_keysPressed[3])
-  //   {
-  //     SNAKE_addMove(Right);
-  //     SNAKE_keysPressed[3] = 1;
-  //   }
-  // }
-  // else
-  // {
-  //   SNAKE_keysPressed[3] = 0;
-  // }
+  if (GetAsyncKeyState(VK_ESCAPE))
+  {
+    running = 0;
+    return;
+  }
+  if (GetAsyncKeyState(0x26)) // up
+  {
+    if (!SNAKE_keysPressed[0])
+    {
+      SNAKE_addMove(Up);
+      SNAKE_keysPressed[0] = 1;
+    }
+  }
+  else
+  {
+    SNAKE_keysPressed[0] = 0;
+  }
+  if (GetAsyncKeyState(0x28)) // down
+  {
+    if (!SNAKE_keysPressed[1])
+    {
+      SNAKE_addMove(Down);
+      SNAKE_keysPressed[1] = 1;
+    }
+  }
+  else
+  {
+    SNAKE_keysPressed[1] = 0;
+  }
+  if (GetAsyncKeyState(0x25)) // left
+  {
+    if (!SNAKE_keysPressed[2])
+    {
+      SNAKE_addMove(Left);
+      SNAKE_keysPressed[2] = 1;
+    }
+  }
+  else
+  {
+    SNAKE_keysPressed[2] = 0;
+  }
+  if (GetAsyncKeyState(0x27)) // right
+  {
+    if (!SNAKE_keysPressed[3])
+    {
+      SNAKE_addMove(Right);
+      SNAKE_keysPressed[3] = 1;
+    }
+  }
+  else
+  {
+    SNAKE_keysPressed[3] = 0;
+  }
 }
 
 void SNAKE_render()

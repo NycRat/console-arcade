@@ -31,7 +31,7 @@ int PONG_run()
     PONG_update();
     PONG_render();
     dt = 0;
-    // Sleep(1);
+    Sleep(1);
     while (dt < 1)
     {
       gettimeofday(&end, NULL);
@@ -56,30 +56,30 @@ int PONG_run()
 
 void PONG_processInput()
 {
-  // if (GetAsyncKeyState(VK_ESCAPE))
-  // {
-  //   running = 0;
-  // }
-  // if (GetAsyncKeyState(0x57)) // W
-  // {
-  //   PONG_p1Y -= PONG_PADDLE_SPEED * dt;
-  //   PONG_p1Y = ((PONG_p1Y > 2) ? PONG_p1Y : 1.5);
-  // }
-  // if (GetAsyncKeyState(0x53)) // S
-  // {
-  //   PONG_p1Y += PONG_PADDLE_SPEED * dt;
-  //   PONG_p1Y = ((PONG_p1Y + PONG_PADDLE_SIZE < HEIGHT) ? PONG_p1Y : HEIGHT - PONG_PADDLE_SIZE);
-  // }
-  // if (GetAsyncKeyState(0x26)) // UP
-  // {
-  //   PONG_p2Y -= PONG_PADDLE_SPEED * dt;
-  //   PONG_p2Y = ((PONG_p2Y > 2) ? PONG_p2Y : 1.5);
-  // }
-  // if (GetAsyncKeyState(0x28)) // DOWN
-  // {
-  //   PONG_p2Y += PONG_PADDLE_SPEED * dt;
-  //   PONG_p2Y = ((PONG_p2Y + PONG_PADDLE_SIZE < HEIGHT) ? PONG_p2Y : HEIGHT - PONG_PADDLE_SIZE);
-  // }
+  if (GetAsyncKeyState(VK_ESCAPE))
+  {
+    running = 0;
+  }
+  if (GetAsyncKeyState(0x57)) // W
+  {
+    PONG_p1Y -= PONG_PADDLE_SPEED * dt;
+    PONG_p1Y = ((PONG_p1Y > 2) ? PONG_p1Y : 1.5);
+  }
+  if (GetAsyncKeyState(0x53)) // S
+  {
+    PONG_p1Y += PONG_PADDLE_SPEED * dt;
+    PONG_p1Y = ((PONG_p1Y + PONG_PADDLE_SIZE < HEIGHT) ? PONG_p1Y : HEIGHT - PONG_PADDLE_SIZE);
+  }
+  if (GetAsyncKeyState(0x26)) // UP
+  {
+    PONG_p2Y -= PONG_PADDLE_SPEED * dt;
+    PONG_p2Y = ((PONG_p2Y > 2) ? PONG_p2Y : 1.5);
+  }
+  if (GetAsyncKeyState(0x28)) // DOWN
+  {
+    PONG_p2Y += PONG_PADDLE_SPEED * dt;
+    PONG_p2Y = ((PONG_p2Y + PONG_PADDLE_SIZE < HEIGHT) ? PONG_p2Y : HEIGHT - PONG_PADDLE_SIZE);
+  }
 }
 
 void PONG_collision(int side)

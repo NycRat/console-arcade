@@ -33,12 +33,11 @@ int FB_run()
     gettimeofday(&begin, NULL);
     FB_update();
     FB_render();
-    // if (getKeyActuallyPressed(VK_ESCAPE))
-    // {
-    //   return 0;
-    // }
-    // if (GetAsyncKeyState(0x20))
-    if (1)
+    if (getKeyActuallyPressed(VK_ESCAPE))
+    {
+      return 0;
+    }
+    if (GetAsyncKeyState(0x20))
     {
       if (!FB_keyPressed)
       {
@@ -56,7 +55,7 @@ int FB_run()
       FB_keyPressed = 0;
     }
 
-    // Sleep(1);
+    Sleep(1);
     dt = 0;
     while (dt <= 0)
     {
