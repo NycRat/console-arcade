@@ -32,7 +32,7 @@ int FB_run() {
     FB_update();
     FB_render();
 
-    char c = getch();
+    int c = getch();
     if (c == 'q') {
       return 0;
     }
@@ -62,7 +62,7 @@ int FB_run() {
   mvprintw(1, 0, "Press [R] to play again");
   mvprintw(2, 0, "Press [Q] to quit");
   while (1) {
-    char c = getch();
+    int c = getch();
     if (c == 'r') {
       break;
     }
