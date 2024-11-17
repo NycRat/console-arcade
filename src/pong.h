@@ -1,7 +1,8 @@
 #include "utils.h"
-#define PONG_BALL_SPEED 0.08
+#include <ncurses.h>
+#define PONG_BALL_SPEED 80.0
 #define PONG_BALL_SIZE 1
-#define PONG_PADDLE_SPEED 0.04
+#define PONG_PADDLE_SPEED 80.0
 #define PONG_PADDLE_SIZE 3
 
 double PONG_ballAngle;
@@ -28,53 +29,45 @@ int PONG_run() {
     PONG_processInput();
     PONG_update();
     PONG_render();
-    dt_seconds = 0;
+
     avah_sleep(1);
-    while (dt_seconds < 1) {
-      gettimeofday(&end, NULL);
-      dt_seconds = ((end.tv_sec - begin.tv_sec) * 1000000 +
-                    (end.tv_usec - begin.tv_usec));
-      dt_seconds /= 1000;
-    }
+
+    gettimeofday(&end, NULL);
+    dt_seconds =
+        end.tv_sec - begin.tv_sec + (end.tv_usec - begin.tv_usec) / 1000000.0;
 
     tempTime += dt_seconds;
 
     if (tempTime >= 1000) {
       tempTime -= 1000;
-      setCursorPosition(0, 0);
-      printf("FPS: %d", frames);
+      mvprintw(0, 0, "FPS: %d", frames);
       frames = 0;
     }
-    setCursorPosition(0, 0);
     frames++;
   }
   return 0;
 }
 
 void PONG_processInput() {
-  if (TempGetAsyncKeyState(69)) // NOTE was VK_ESCAPE
-  {
+  int c = getch();
+  if (c == 'q') {
     running = 0;
   }
-  if (TempGetAsyncKeyState(0x57)) // W
-  {
+  if (c == 'w') {
     PONG_p1Y -= PONG_PADDLE_SPEED * dt_seconds;
     PONG_p1Y = ((PONG_p1Y > 2) ? PONG_p1Y : 1.5);
   }
-  if (TempGetAsyncKeyState(0x53)) // S
-  {
+  if (c == 's') {
     PONG_p1Y += PONG_PADDLE_SPEED * dt_seconds;
     PONG_p1Y =
         ((PONG_p1Y + PONG_PADDLE_SIZE < HEIGHT) ? PONG_p1Y
                                                 : HEIGHT - PONG_PADDLE_SIZE);
   }
-  if (TempGetAsyncKeyState(0x26)) // UP
-  {
+  if (c == KEY_UP) {
     PONG_p2Y -= PONG_PADDLE_SPEED * dt_seconds;
     PONG_p2Y = ((PONG_p2Y > 2) ? PONG_p2Y : 1.5);
   }
-  if (TempGetAsyncKeyState(0x28)) // DOWN
-  {
+  if (c == KEY_DOWN) {
     PONG_p2Y += PONG_PADDLE_SPEED * dt_seconds;
     PONG_p2Y =
         ((PONG_p2Y + PONG_PADDLE_SIZE < HEIGHT) ? PONG_p2Y
@@ -88,7 +81,7 @@ void PONG_collision(int side) {
     PONG_ballVel.x = cos(PONG_ballAngle);
     PONG_ballVel.y = sin(PONG_ballAngle);
   } else {
-    PONG_ballAngle = side / 2 * M_PI + ((double)(rand() % 51) / 100) - 0.25;
+    PONG_ballAngle = side / 2.0 * M_PI + ((double)(rand() % 51) / 100) - 0.25;
     PONG_ballVel.x = cos(PONG_ballAngle);
     PONG_ballVel.y = sin(PONG_ballAngle);
   }
@@ -104,23 +97,21 @@ void PONG_initialize() {
   PONG_p2Score = 0;
   PONG_ballAngle = 0;
 
-  PONG_ballPos.x = WIDTH / 2 - 30;
-  PONG_ballPos.y = HEIGHT / 2;
+  PONG_ballPos.x = WIDTH / 2.0 - 30;
+  PONG_ballPos.y = HEIGHT / 2.0;
 
   PONG_ballVel.x = 1;
   PONG_ballVel.y = 0;
 
-  PONG_p1Y = HEIGHT / 2;
-  PONG_p2Y = HEIGHT / 2;
+  PONG_p1Y = HEIGHT / 2.0;
+  PONG_p2Y = HEIGHT / 2.0;
   PONG_numRandSide[0] = 0;
   PONG_numRandSide[1] = 0;
 
   setConsoleColour(CYAN);
-  setCursorPosition(WIDTH / 4, 1);
-  printf("%d", PONG_p1Score);
+  mvprintw(1, WIDTH * 0.25, "%d", PONG_p1Score);
   setConsoleColour(GREEN);
-  setCursorPosition(WIDTH - WIDTH / 4, 1);
-  printf("%d", PONG_p2Score);
+  mvprintw(1, WIDTH * 0.75, "%d", PONG_p2Score);
   setConsoleColour(WHITE);
 }
 
@@ -141,15 +132,14 @@ void PONG_update() {
       PONG_numRandSide[!side] = 0;
       PONG_numRandSide[side]++;
 
-      PONG_ballPos.x = WIDTH / 2 + ((side) ? 30 : -30);
-      PONG_ballPos.y = HEIGHT / 2;
+      PONG_ballPos.x = WIDTH * 0.5 + ((side) ? 30 : -30);
+      PONG_ballPos.y = HEIGHT * 0.5;
       PONG_ballAngle = side * M_PI;
       PONG_ballVel.x = cos(PONG_ballAngle);
       PONG_ballVel.y = sin(PONG_ballAngle);
       PONG_p1Score++;
       setConsoleColour(CYAN);
-      setCursorPosition(WIDTH / 4, 1);
-      printf("%d", PONG_p1Score);
+      mvprintw(1, WIDTH * 0.25, "%d", PONG_p1Score);
       setConsoleColour(WHITE);
     }
   }
@@ -168,15 +158,14 @@ void PONG_update() {
       PONG_numRandSide[!side] = 0;
       PONG_numRandSide[side]++;
 
-      PONG_ballPos.x = WIDTH / 2 + ((side) ? 30 : -30);
-      PONG_ballPos.y = HEIGHT / 2;
+      PONG_ballPos.x = WIDTH * 0.5 + ((side) ? 30 : -30);
+      PONG_ballPos.y = HEIGHT * 0.5;
       PONG_ballAngle = side * M_PI;
       PONG_ballVel.x = cos(PONG_ballAngle);
       PONG_ballVel.y = sin(PONG_ballAngle);
       PONG_p2Score++;
       setConsoleColour(GREEN);
-      setCursorPosition(WIDTH - WIDTH / 4, 1);
-      printf("%d", PONG_p2Score);
+      mvprintw(1, WIDTH * 0.75, "%d", PONG_p2Score);
       setConsoleColour(WHITE);
     }
   }
@@ -196,15 +185,13 @@ void PONG_render() {
     for (int x = 0; x < WIDTH; x++) {
       if (distance(x, y, PONG_ballPos.x, PONG_ballPos.y) <= PONG_BALL_SIZE) {
         if (buffer[y][x] != '#') {
-          setCursorPosition(x, y);
-          printf("%c", BLOCK);
+          mvprintw(y, x, "%c", BLOCK);
         }
         buffer[y][x] = '#';
       } else if (y >= PONG_p1Y && y < PONG_p1Y + PONG_PADDLE_SIZE && x == 2) {
         if (buffer[y][x] != '1') {
           setConsoleColour(CYAN);
-          setCursorPosition(x, y);
-          printf("%c", BLOCK);
+          mvprintw(y, x, "%c", BLOCK);
           setConsoleColour(WHITE);
         }
         buffer[y][x] = '1';
@@ -212,26 +199,22 @@ void PONG_render() {
                  x == WIDTH - 3) {
         if (buffer[y][x] != '2') {
           setConsoleColour(GREEN);
-          setCursorPosition(x, y);
-          printf("%c", BLOCK);
+          mvprintw(y, x, "%c", BLOCK);
           setConsoleColour(WHITE);
         }
         buffer[y][x] = '2';
       } else {
         if (buffer[y][x] == 'L') {
-          setCursorPosition(x, y);
-          printf(" ");
+          mvprintw(y, x, " ");
           buffer[y][x] = ' ';
         }
         if (buffer[y][x] == '#' || buffer[y][x] == '1' || buffer[y][x] == '2') {
-          setCursorPosition(x, y);
-          printf(" ");
+          mvprintw(y, x, " ");
           buffer[y][x] = 'L';
         }
       }
     }
   }
-  setCursorPosition(0, 0);
 }
 
 double distance(double x1, double y1, double x2, double y2) {
