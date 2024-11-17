@@ -28,16 +28,16 @@ int PONG_run() {
     PONG_processInput();
     PONG_update();
     PONG_render();
-    dt = 0;
+    dt_seconds = 0;
     avah_sleep(1);
-    while (dt < 1) {
+    while (dt_seconds < 1) {
       gettimeofday(&end, NULL);
-      dt = ((end.tv_sec - begin.tv_sec) * 1000000 +
-            (end.tv_usec - begin.tv_usec));
-      dt /= 1000;
+      dt_seconds = ((end.tv_sec - begin.tv_sec) * 1000000 +
+                    (end.tv_usec - begin.tv_usec));
+      dt_seconds /= 1000;
     }
 
-    tempTime += dt;
+    tempTime += dt_seconds;
 
     if (tempTime >= 1000) {
       tempTime -= 1000;
@@ -58,24 +58,24 @@ void PONG_processInput() {
   }
   if (TempGetAsyncKeyState(0x57)) // W
   {
-    PONG_p1Y -= PONG_PADDLE_SPEED * dt;
+    PONG_p1Y -= PONG_PADDLE_SPEED * dt_seconds;
     PONG_p1Y = ((PONG_p1Y > 2) ? PONG_p1Y : 1.5);
   }
   if (TempGetAsyncKeyState(0x53)) // S
   {
-    PONG_p1Y += PONG_PADDLE_SPEED * dt;
+    PONG_p1Y += PONG_PADDLE_SPEED * dt_seconds;
     PONG_p1Y =
         ((PONG_p1Y + PONG_PADDLE_SIZE < HEIGHT) ? PONG_p1Y
                                                 : HEIGHT - PONG_PADDLE_SIZE);
   }
   if (TempGetAsyncKeyState(0x26)) // UP
   {
-    PONG_p2Y -= PONG_PADDLE_SPEED * dt;
+    PONG_p2Y -= PONG_PADDLE_SPEED * dt_seconds;
     PONG_p2Y = ((PONG_p2Y > 2) ? PONG_p2Y : 1.5);
   }
   if (TempGetAsyncKeyState(0x28)) // DOWN
   {
-    PONG_p2Y += PONG_PADDLE_SPEED * dt;
+    PONG_p2Y += PONG_PADDLE_SPEED * dt_seconds;
     PONG_p2Y =
         ((PONG_p2Y + PONG_PADDLE_SIZE < HEIGHT) ? PONG_p2Y
                                                 : HEIGHT - PONG_PADDLE_SIZE);
@@ -125,12 +125,14 @@ void PONG_initialize() {
 }
 
 void PONG_update() {
-  if (PONG_ballPos.x + PONG_BALL_SPEED * PONG_ballVel.x * dt >= WIDTH - 3 &&
+  if (PONG_ballPos.x + PONG_BALL_SPEED * PONG_ballVel.x * dt_seconds >=
+          WIDTH - 3 &&
       PONG_ballPos.y >= PONG_p2Y - 0.5 &&
       PONG_ballPos.y <= PONG_p2Y + PONG_PADDLE_SIZE + 0.5) {
     PONG_collision(2);
   } else {
-    if (PONG_ballPos.x + PONG_BALL_SPEED * PONG_ballVel.x * dt >= WIDTH) {
+    if (PONG_ballPos.x + PONG_BALL_SPEED * PONG_ballVel.x * dt_seconds >=
+        WIDTH) {
       int side = rand() % 2;
       if (PONG_numRandSide[side] >= 2) {
         PONG_numRandSide[side] = 0;
@@ -151,12 +153,12 @@ void PONG_update() {
       setConsoleColour(WHITE);
     }
   }
-  if (PONG_ballPos.x + PONG_BALL_SPEED * PONG_ballVel.x * dt <= 2 &&
+  if (PONG_ballPos.x + PONG_BALL_SPEED * PONG_ballVel.x * dt_seconds <= 2 &&
       PONG_ballPos.y >= PONG_p1Y - 0.5 &&
       PONG_ballPos.y <= PONG_p1Y + PONG_PADDLE_SIZE + 0.5) {
     PONG_collision(0);
   } else {
-    if (PONG_ballPos.x + PONG_BALL_SPEED * PONG_ballVel.x * dt <= 0) {
+    if (PONG_ballPos.x + PONG_BALL_SPEED * PONG_ballVel.x * dt_seconds <= 0) {
       int side = rand() % 2;
       if (PONG_numRandSide[side] >= 2) {
         PONG_numRandSide[side] = 0;
@@ -178,14 +180,15 @@ void PONG_update() {
       setConsoleColour(WHITE);
     }
   }
-  if (PONG_ballPos.y + PONG_BALL_SPEED * PONG_ballVel.y * dt >= HEIGHT) {
+  if (PONG_ballPos.y + PONG_BALL_SPEED * PONG_ballVel.y * dt_seconds >=
+      HEIGHT) {
     PONG_collision(1);
   }
-  if (PONG_ballPos.y + PONG_BALL_SPEED * PONG_ballVel.y * dt <= 2) {
+  if (PONG_ballPos.y + PONG_BALL_SPEED * PONG_ballVel.y * dt_seconds <= 2) {
     PONG_collision(3);
   }
-  PONG_ballPos.x += PONG_BALL_SPEED * PONG_ballVel.x * dt;
-  PONG_ballPos.y += PONG_BALL_SPEED * PONG_ballVel.y * dt;
+  PONG_ballPos.x += PONG_BALL_SPEED * PONG_ballVel.x * dt_seconds;
+  PONG_ballPos.y += PONG_BALL_SPEED * PONG_ballVel.y * dt_seconds;
 }
 
 void PONG_render() {

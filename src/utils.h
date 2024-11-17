@@ -54,10 +54,8 @@
 #define YELLOW 14
 #define WHITE 15
 
-#define KEY_ESCAPE 27
-
 char **buffer;
-double dt = 0;
+double dt_seconds = 0;
 short running = 0;
 struct timeval begin, end;
 double tempTime = 0;

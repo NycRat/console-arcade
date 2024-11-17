@@ -68,14 +68,14 @@ int SNAKE_run() {
     }
   }
   mvprintw(1, 0, "Press [R] to play again");
-  mvprintw(2, 0, "Press [Escape] to quit");
+  mvprintw(2, 0, "Press [Q] to quit");
   refresh();
   while (1) {
     int c = getch();
     if (c == 'r') {
       break;
     }
-    if (c == KEY_ESCAPE) {
+    if (c == 'q') {
       return 0;
     }
     avah_sleep(1);
@@ -196,8 +196,7 @@ void SNAKE_update() {
 
 void SNAKE_processInput() {
   int c = getch();
-  if (c == KEY_ESCAPE) // NOTE was VK_ESCAPE
-  {
+  if (c == 'q') {
     running = 0;
     return;
   }

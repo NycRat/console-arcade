@@ -14,9 +14,11 @@
 // }
 
 int MENU_processInput(int (*f1)(), int (*f2)(), int (*f3)()) {
-  avah_sleep(1);
   int c = getch();
-  if (c == ' ') {
+  if (c == 'q') {
+    running = 0;
+    return 0;
+  } else if (c == ' ') {
     if (!keyPressed) {
       keyPressed = 1;
 
