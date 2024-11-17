@@ -25,7 +25,7 @@ int ARCADE_run() {
 
 void ARCADE_initialize() {
   MENU_initialize("PONG", "FLAPPY BIRD", "SNAKE");
-  setConsoleColour(CYAN);
+  setConsoleColor(CYAN);
 
   const char arcade_graphic[] =
 #include "menuGraphic.txt"
@@ -33,6 +33,6 @@ void ARCADE_initialize() {
 
   mvprintw(2, 0, arcade_graphic);
 
-  setConsoleColour(WHITE);
+  setConsoleColor(WHITE);
   mvprintw(HEIGHT - 1, WIDTH - 32, "Press [Q] to exit any game");
 }

@@ -54,8 +54,6 @@ int SNAKE_run() {
   double tempTime = 0;
   while (running) {
     avah_sleep(1);
-    setCursorPosition(0, 1);
-
     gettimeofday(&end, NULL);
     tempTime =
         (end.tv_sec - begin.tv_sec) * 1000000 + (end.tv_usec - begin.tv_usec);
@@ -172,10 +170,8 @@ void SNAKE_update() {
   if (snakeHeadPos.x == SNAKE_applePos.x &&
       snakeHeadPos.y == SNAKE_applePos.y) // eats apple
   {
-    setCursorPosition(SNAKE_applePos.x, SNAKE_applePos.y);
-    printf("    ");
-    setCursorPosition(SNAKE_applePos.x, SNAKE_applePos.y + 1);
-    printf("    ");
+    mvprintw(SNAKE_applePos.y, SNAKE_applePos.x, "    ");
+    mvprintw(SNAKE_applePos.y + 1, SNAKE_applePos.x, "    ");
     struct Vector2 tempApplePos;
     if (SNAKE_snake.size < ((WIDTH - 4) / 4) + ((HEIGHT - 4) / 2)) {
       while (1) {
@@ -240,48 +236,45 @@ void SNAKE_processInput() {
 
 void SNAKE_render() {
   short hasSnake = 0;
+  cls();
   for (int y = 0; y < HEIGHT / 2; y++) {
     for (int x = 0; x < WIDTH / 4; x++) {
       hasSnake = 0;
       for (int i = 0; i < SNAKE_snake.size; i++) {
         if (x == SNAKE_snake.parts[i].pos.x &&
             y == SNAKE_snake.parts[i].pos.y) {
-          if (buffer[SNAKE_snake.parts[i].pos.y][SNAKE_snake.parts[i].pos.x] !=
-              '#') {
-            buffer[y][x] = '#';
-            mvprintw(y * 2, x * 4, "%c%c%c%c", BLOCK, BLOCK, BLOCK, BLOCK);
-            setCursorPosition(x * 4, y * 2 + 1);
-            mvprintw(y * 2 + 1, x * 4, "%c%c%c%c", BLOCK, BLOCK, BLOCK, BLOCK);
-            // printf("%d%d", i, i);
-          }
+          // if (buffer[SNAKE_snake.parts[i].pos.y][SNAKE_snake.parts[i].pos.x]
+          // != '#') { buffer[y][x] = '#';
+          // }
+          mvprintw(y * 2, x * 4, "%c%c%c%c", BLOCK, BLOCK, BLOCK, BLOCK);
+          mvprintw(y * 2 + 1, x * 4, "%c%c%c%c", BLOCK, BLOCK, BLOCK, BLOCK);
           hasSnake = 1;
           break;
         }
       }
-      if (!hasSnake) {
-        if (buffer[y][x] == 'L') {
-          buffer[y][x] = ' ';
-          mvprintw(y * 2, x * 4, "    ");
-          mvprintw(y * 2 + 1, x * 4, "    ");
-        }
-        if (buffer[y][x] == '#') {
-          buffer[y][x] = 'L';
-          mvprintw(y * 2, x * 4, "    ");
-          mvprintw(y * 2 + 1, x * 4, "    ");
-        }
-      }
+      // if (!hasSnake) {
+      //   if (buffer[y][x] == 'L') {
+      //     buffer[y][x] = ' ';
+      //     mvprintw(y * 2, x * 4, "    ");
+      //     mvprintw(y * 2 + 1, x * 4, "    ");
+      //   }
+      //   if (buffer[y][x] == '#') {
+      //     buffer[y][x] = 'L';
+      //     mvprintw(y * 2, x * 4, "    ");
+      //     mvprintw(y * 2 + 1, x * 4, "    ");
+      //   }
+      // }
     }
-    setCursorPosition(0, 0);
   }
 
+  setConsoleColor(RED);
   mvprintw(SNAKE_applePos.y * 2, SNAKE_applePos.x * 4, "%c%c%c%c", BLOCK, BLOCK,
            BLOCK, BLOCK);
   mvprintw(SNAKE_applePos.y * 2 + 1, SNAKE_applePos.x * 4, "%c%c%c%c", BLOCK,
            BLOCK, BLOCK, BLOCK);
 
-  setConsoleColour(WHITE);
+  setConsoleColor(WHITE);
   mvprintw(0, 0, "SNAKE LENGTH: %d", SNAKE_snake.size);
-  setCursorPosition(0, 0);
 
   refresh();
 }

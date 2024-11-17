@@ -72,7 +72,7 @@ void MENU_initialize(char *o1, char *o2, char *o3) {
   running = 1;
   disposeBuffer();
   cls();
-  setConsoleColour(WHITE);
+  setConsoleColor(WHITE);
 
   for (int i = 0; i < 4; i++) {
     mvprintw(15 + 4 * i, WIDTH / 3 + 5, "%s", menu_items[i]);
@@ -86,7 +86,7 @@ void MENU_render() {
     if (b == option) {
       tempBlockChar = '*';
       tempColour = 'G';
-      setConsoleColour(GREEN);
+      setConsoleColor(GREEN);
     }
 
     if (buffer[15 + b * 4][WIDTH / 4] != tempColour) {
@@ -107,7 +107,6 @@ void MENU_render() {
         buffer[y][x] = tempColour;
       }
     }
-    setConsoleColour(WHITE);
+    setConsoleColor(WHITE);
   }
-  setCursorPosition(0, 0);
 }

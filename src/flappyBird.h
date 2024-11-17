@@ -49,7 +49,7 @@ int FB_run() {
       FB_keyPressed = 0;
     }
 
-    avah_sleep(1000.0 / 120.0);
+    avah_sleep(1000.0 / 240.0);
 
     gettimeofday(&end, NULL);
 
@@ -142,43 +142,27 @@ void FB_update() {
 }
 
 void FB_render() {
+  cls();
   for (int y = 0; y < HEIGHT; y++) {
     for (int x = 0; x < WIDTH; x++) {
       if (x == 10 && y == (int)FB_playerY) {
-        if (buffer[y][x] != '#') {
-          mvprintw(y, x, "%c", BLOCK);
-        }
-        buffer[y][x] = '#';
+        mvprintw(y, x, "%c", BLOCK);
       } else {
         short pipeHere = 0;
         for (int i = 0; i < FB_NUM_PIPES; i++) {
           if (x > FB_pipeX[i] - FB_PIPE_SIZE / 2.0 &&
               x <= FB_pipeX[i] + FB_PIPE_SIZE / 2.0) {
             if (y <= FB_pipeY[i] || y > FB_pipeY[i] + FB_PIPE_GAP) {
-              if (buffer[y][x] != '#') {
-                setConsoleColour(LIGHTGREEN);
-                mvprintw(y, x, "%c", BLOCK);
-                setConsoleColour(WHITE);
-              }
-              buffer[y][x] = '#';
+              setConsoleColor(GREEN);
+              mvprintw(y, x, "%c", BLOCK);
+              setConsoleColor(WHITE);
               pipeHere = 1;
               break;
             }
-          }
-        }
-        if (!pipeHere) {
-          if (buffer[y][x] == 'L') {
-            mvprintw(y, x, " ");
-            buffer[y][x] = ' ';
-          }
-          if (buffer[y][x] == '#') {
-            mvprintw(y, x, " ");
-            buffer[y][x] = 'L';
           }
         }
       }
     }
   }
   mvprintw(0, 0, "Your Score: %d", FB_score);
-  setCursorPosition(0, 0);
 }

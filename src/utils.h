@@ -20,12 +20,9 @@
 
 #endif
 
-#include <math.h>
 #include <ncurses.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
-#include <time.h>
 #include <unistd.h> // usleep
 
 // #define BLOCK (unsigned char)219
@@ -38,21 +35,13 @@
 #define HEIGHT 30
 
 #define BLACK 0
-#define BLUE 1
+#define RED 1
 #define GREEN 2
-#define CYAN 3
-#define RED 4
+#define YELLOW 3
+#define BLUE 4
 #define MAGENTA 5
-#define BROWN 6
-#define LIGHTGRAY 7
-#define DARKGRAY 8
-#define LIGHTBLUE 9
-#define LIGHTGREEN 10
-#define LIGHTCYAN 11
-#define LIGHTRED 12
-#define LIGHTMAGENTA 13
-#define YELLOW 14
-#define WHITE 15
+#define CYAN 6
+#define WHITE 7
 
 char **buffer;
 double dt_seconds = 0;
@@ -83,39 +72,11 @@ int getKeyActuallyPressed(int vKey) {
   return getch() == vKey;
 }
 
-void cls() {
-  clear();
-  // const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-  //
-  // CONSOLE_SCREEN_BUFFER_INFO csbi;
-  // COORD topLeft = {0, 0};
-  //
-  // if (!GetConsoleScreenBufferInfo(hOut, &csbi)) {
-  //   abort();
-  // }
-  //
-  // DWORD length = csbi.dwSize.X * csbi.dwSize.Y;
-  //
-  // DWORD written;
-  //
-  // FillConsoleOutputCharacter(hOut, TEXT(' '), length, topLeft, &written);
-  //
-  // // was filling with invalid characters
-  // // FillConsoleOutputCharacter(hOut, csbi.wAttributes, length, topLeft,
-  // // &written);
-  //
-  // SetConsoleCursorPosition(hOut, topLeft);
-}
+void cls() { clear(); }
 
-void setCursorPosition(int x, int y) {
-  // const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-  // COORD coord = {(SHORT)x, (SHORT)y};
-  // SetConsoleCursorPosition(hOut, coord);
-}
-
-void setConsoleColour(unsigned short colour) {
-  // const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-  // SetConsoleTextAttribute(hOut, colour);
+void setConsoleColor(int color) {
+  //
+  attron(COLOR_PAIR(color));
 }
 
 void disposeBuffer() {

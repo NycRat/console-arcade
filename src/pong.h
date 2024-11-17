@@ -1,4 +1,5 @@
 #include "utils.h"
+#include <math.h>
 #include <ncurses.h>
 #define PONG_BALL_SPEED 80.0
 #define PONG_BALL_SIZE 1
@@ -108,11 +109,11 @@ void PONG_initialize() {
   PONG_numRandSide[0] = 0;
   PONG_numRandSide[1] = 0;
 
-  setConsoleColour(CYAN);
+  setConsoleColor(CYAN);
   mvprintw(1, WIDTH * 0.25, "%d", PONG_p1Score);
-  setConsoleColour(GREEN);
+  setConsoleColor(GREEN);
   mvprintw(1, WIDTH * 0.75, "%d", PONG_p2Score);
-  setConsoleColour(WHITE);
+  setConsoleColor(WHITE);
 }
 
 void PONG_update() {
@@ -138,9 +139,9 @@ void PONG_update() {
       PONG_ballVel.x = cos(PONG_ballAngle);
       PONG_ballVel.y = sin(PONG_ballAngle);
       PONG_p1Score++;
-      setConsoleColour(CYAN);
+      setConsoleColor(CYAN);
       mvprintw(1, WIDTH * 0.25, "%d", PONG_p1Score);
-      setConsoleColour(WHITE);
+      setConsoleColor(WHITE);
     }
   }
   if (PONG_ballPos.x + PONG_BALL_SPEED * PONG_ballVel.x * dt_seconds <= 2 &&
@@ -164,9 +165,9 @@ void PONG_update() {
       PONG_ballVel.x = cos(PONG_ballAngle);
       PONG_ballVel.y = sin(PONG_ballAngle);
       PONG_p2Score++;
-      setConsoleColour(GREEN);
+      setConsoleColor(GREEN);
       mvprintw(1, WIDTH * 0.75, "%d", PONG_p2Score);
-      setConsoleColour(WHITE);
+      setConsoleColor(WHITE);
     }
   }
   if (PONG_ballPos.y + PONG_BALL_SPEED * PONG_ballVel.y * dt_seconds >=
@@ -190,17 +191,17 @@ void PONG_render() {
         buffer[y][x] = '#';
       } else if (y >= PONG_p1Y && y < PONG_p1Y + PONG_PADDLE_SIZE && x == 2) {
         if (buffer[y][x] != '1') {
-          setConsoleColour(CYAN);
+          setConsoleColor(CYAN);
           mvprintw(y, x, "%c", BLOCK);
-          setConsoleColour(WHITE);
+          setConsoleColor(WHITE);
         }
         buffer[y][x] = '1';
       } else if (y >= PONG_p2Y && y < PONG_p2Y + PONG_PADDLE_SIZE &&
                  x == WIDTH - 3) {
         if (buffer[y][x] != '2') {
-          setConsoleColour(GREEN);
+          setConsoleColor(GREEN);
           mvprintw(y, x, "%c", BLOCK);
-          setConsoleColour(WHITE);
+          setConsoleColor(WHITE);
         }
         buffer[y][x] = '2';
       } else {
