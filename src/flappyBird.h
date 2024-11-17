@@ -1,4 +1,4 @@
-#include "stuff.h"
+#include "utils.h"
 
 #define FB_PIPE_GAP 6
 #define FB_PIPE_SPEED 0.02
@@ -25,47 +25,38 @@ void FB_render();
 void FB_update();
 void FB_initialize();
 
-int FB_run()
-{
+int FB_run() {
   FB_initialize();
-  while (running)
-  {
+  while (running) {
     gettimeofday(&begin, NULL);
     FB_update();
     FB_render();
-    if (getKeyActuallyPressed(VK_ESCAPE))
-    {
+    if (getKeyActuallyPressed(69)) { // NOTE was VK_ESCAPE
       return 0;
     }
-    if (GetAsyncKeyState(0x20))
-    {
-      if (!FB_keyPressed)
-      {
+    if (TempGetAsyncKeyState(0x20)) {
+      if (!FB_keyPressed) {
         FB_keyPressed = 1;
 
-        if (FB_jumpCD <= 0)
-        {
+        if (FB_jumpCD <= 0) {
           FB_playerVelY = -FB_JUMP_HEIGHT;
           FB_jumpCD = FB_JUMP_DELAY;
         }
       }
-    }
-    else
-    {
+    } else {
       FB_keyPressed = 0;
     }
 
     // Sleep(1);
     dt = 0;
-    while (dt <= 0)
-    {
+    while (dt <= 0) {
       gettimeofday(&end, NULL);
-      dt = ((end.tv_sec - begin.tv_sec) * 1000000 + (end.tv_usec - begin.tv_usec));
+      dt = ((end.tv_sec - begin.tv_sec) * 1000000 +
+            (end.tv_usec - begin.tv_usec));
       dt /= 1000;
     }
     tempTime += dt;
-    if (tempTime >= 1000)
-    {
+    if (tempTime >= 1000) {
       tempTime -= 1000;
     }
     setCursorPosition(0, 0);
@@ -73,14 +64,11 @@ int FB_run()
   setCursorPosition(0, 0);
   printf("Your Score: %d\n", FB_score);
   printf("Press [R] to play again");
-  while (1)
-  {
-    if (getKeyActuallyPressed('R'))
-    {
+  while (1) {
+    if (getKeyActuallyPressed('R')) {
       break;
     }
-    if (getKeyActuallyPressed(VK_ESCAPE))
-    {
+    if (getKeyActuallyPressed(69)) { // NOTE was VK_ESCAPE
       return 0;
     }
   }
@@ -88,8 +76,7 @@ int FB_run()
   return 0;
 }
 
-void FB_initialize()
-{
+void FB_initialize() {
   running = 1;
   disposeBuffer();
   cls();
@@ -101,8 +88,7 @@ void FB_initialize()
 
   srand(time(NULL));
 
-  for (int i = 0; i < FB_NUM_PIPES; i++)
-  {
+  for (int i = 0; i < FB_NUM_PIPES; i++) {
     FB_pipeX[i] = WIDTH + i * 40;
     FB_pipeY[i] = rand() % (HEIGHT - FB_PIPE_GAP - 8) + 4;
     FB_pipeCanScore[i] = 1;
@@ -111,55 +97,42 @@ void FB_initialize()
   printf("Your Score: 0");
 }
 
-void FB_update()
-{
-  for (int i = 0; i < FB_NUM_PIPES; i++)
-  {
+void FB_update() {
+  for (int i = 0; i < FB_NUM_PIPES; i++) {
     FB_pipeX[i] -= FB_PIPE_SPEED * dt;
-    if (FB_pipeX[i] <= -FB_PIPE_SIZE / 2)
-    {
+    if (FB_pipeX[i] <= -FB_PIPE_SIZE / 2) {
       FB_pipeX[i] = WIDTH + FB_PIPE_SIZE;
       FB_pipeY[i] = rand() % (HEIGHT - FB_PIPE_GAP - 8) + 4;
       FB_pipeCanScore[i] = 1;
     }
   }
 
-  if (FB_jumpCD > 0)
-  {
+  if (FB_jumpCD > 0) {
     FB_jumpCD -= dt;
   }
   FB_playerVelY += FB_GRAVITY * dt;
-  if (FB_playerVelY > FB_MAX_VELOCITY)
-  {
+  if (FB_playerVelY > FB_MAX_VELOCITY) {
     FB_playerVelY = FB_MAX_VELOCITY;
   }
 
   FB_playerY += FB_playerVelY * dt;
-  if (FB_playerY <= 0)
-  {
+  if (FB_playerY <= 0) {
     FB_playerY = 0;
     FB_playerVelY = FB_MAX_VELOCITY;
   }
-  if (FB_playerY >= HEIGHT - 1)
-  {
+  if (FB_playerY >= HEIGHT - 1) {
     FB_playerVelY = 0;
     FB_playerY = HEIGHT - 1;
     running = 0;
   }
-  for (int i = 0; i < 3; i++)
-  {
-    if (FB_pipeX[i] - FB_PIPE_SIZE / 2 <= 10)
-    {
-      if (FB_pipeX[i] + FB_PIPE_SIZE / 2 > 10)
-      {
-        if (FB_playerY <= FB_pipeY[i] || FB_playerY > FB_pipeY[i] + FB_PIPE_GAP)
-        {
+  for (int i = 0; i < 3; i++) {
+    if (FB_pipeX[i] - FB_PIPE_SIZE / 2 <= 10) {
+      if (FB_pipeX[i] + FB_PIPE_SIZE / 2 > 10) {
+        if (FB_playerY <= FB_pipeY[i] ||
+            FB_playerY > FB_pipeY[i] + FB_PIPE_GAP) {
           running = 0;
-        }
-        else
-        {
-          if (FB_pipeCanScore[i])
-          {
+        } else {
+          if (FB_pipeCanScore[i]) {
             FB_score++;
             FB_pipeCanScore[i] = 0;
           }
@@ -170,34 +143,22 @@ void FB_update()
   }
 }
 
-void FB_render()
-{
-  for (int y = 0; y < HEIGHT; y++)
-  {
-    for (int x = 0; x < WIDTH; x++)
-    {
-      if (x == 10 && y == (int)FB_playerY)
-      {
-        if (buffer[y][x] != '#')
-        {
+void FB_render() {
+  for (int y = 0; y < HEIGHT; y++) {
+    for (int x = 0; x < WIDTH; x++) {
+      if (x == 10 && y == (int)FB_playerY) {
+        if (buffer[y][x] != '#') {
           setCursorPosition(x, y);
           printf("%c", BLOCK);
         }
         buffer[y][x] = '#';
-      }
-      else
-      {
+      } else {
         short pipeHere = 0;
-        for (int i = 0; i < FB_NUM_PIPES; i++)
-        {
+        for (int i = 0; i < FB_NUM_PIPES; i++) {
           if (x > FB_pipeX[i] - FB_PIPE_SIZE / 2 &&
-              x <= FB_pipeX[i] + FB_PIPE_SIZE / 2)
-          {
-            if (y <= FB_pipeY[i] ||
-                y > FB_pipeY[i] + FB_PIPE_GAP)
-            {
-              if (buffer[y][x] != '#')
-              {
+              x <= FB_pipeX[i] + FB_PIPE_SIZE / 2) {
+            if (y <= FB_pipeY[i] || y > FB_pipeY[i] + FB_PIPE_GAP) {
+              if (buffer[y][x] != '#') {
                 setConsoleColour(LIGHTGREEN);
                 setCursorPosition(x, y);
                 printf("%c", BLOCK);
@@ -209,16 +170,13 @@ void FB_render()
             }
           }
         }
-        if (!pipeHere)
-        {
-          if (buffer[y][x] == 'L')
-          {
+        if (!pipeHere) {
+          if (buffer[y][x] == 'L') {
             setCursorPosition(x, y);
             printf(" ");
             buffer[y][x] = ' ';
           }
-          if (buffer[y][x] == '#')
-          {
+          if (buffer[y][x] == '#') {
             setCursorPosition(x, y);
             printf(" ");
             buffer[y][x] = 'L';
