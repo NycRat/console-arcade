@@ -1,8 +1,18 @@
-all:
-	gcc src/main.c -o main.o -lncurses
+CC = gcc
+CFLAGS = -Wall -Wextra -Iinclude
+
+LIBS = -lncurses
+SRC = $(wildcard src/*.c)
+OBJ = $(SRC:.c=.o)
+TARGET = main.o
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
 clean:
-	rm ./**/*.c-E ./**/*.h-E ./**/*.o ./**/*.exe
+	rm $(OBJ) $(TARGET)
 
 run:
-	./main.o
+	./$(TARGET)

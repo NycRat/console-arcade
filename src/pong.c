@@ -1,27 +1,13 @@
+#include "pong.h"
 #include "utils.h"
 #include <math.h>
 #include <ncurses.h>
+#include <stdlib.h>
+#include <sys/time.h>
 #define PONG_BALL_SPEED 80.0
 #define PONG_BALL_SIZE 1
 #define PONG_PADDLE_SPEED 80.0
 #define PONG_PADDLE_SIZE 3
-
-double PONG_ballAngle;
-struct Vector2f PONG_ballPos;
-struct Vector2f PONG_ballVel;
-int PONG_p1Score;
-int PONG_p2Score;
-double PONG_p1Y;
-double PONG_p2Y;
-int PONG_numRandSide[2];
-
-void PONG_render();
-void PONG_update();
-void PONG_initialize();
-void PONG_processInput();
-
-void PONG_collision(int side);
-double distance(double x1, double y1, double x2, double y2);
 
 int PONG_run()
 {
@@ -99,7 +85,7 @@ void PONG_collision(int side)
 void PONG_initialize()
 {
   running = 1;
-  disposeBuffer();
+  dispose_buffer();
   cls();
   srand(time(NULL));
 
@@ -118,11 +104,11 @@ void PONG_initialize()
   PONG_numRandSide[0] = 0;
   PONG_numRandSide[1] = 0;
 
-  setConsoleColor(COLOR_CYAN);
+  set_text_color(COLOR_CYAN);
   mvprintw(1, WIDTH * 0.25, "%d", PONG_p1Score);
-  setConsoleColor(COLOR_GREEN);
+  set_text_color(COLOR_GREEN);
   mvprintw(1, WIDTH * 0.75, "%d", PONG_p2Score);
-  setConsoleColor(COLOR_WHITE);
+  set_text_color(COLOR_WHITE);
 }
 
 void PONG_update()
@@ -151,9 +137,9 @@ void PONG_update()
       PONG_ballVel.x = cos(PONG_ballAngle);
       PONG_ballVel.y = sin(PONG_ballAngle);
       PONG_p1Score++;
-      setConsoleColor(COLOR_CYAN);
+      set_text_color(COLOR_CYAN);
       mvprintw(1, WIDTH * 0.25, "%d", PONG_p1Score);
-      setConsoleColor(COLOR_WHITE);
+      set_text_color(COLOR_WHITE);
     }
   }
   if (PONG_ballPos.x + PONG_BALL_SPEED * PONG_ballVel.x * dt_seconds <= 2 && PONG_ballPos.y >= PONG_p1Y - 0.5 &&
@@ -181,9 +167,9 @@ void PONG_update()
       PONG_ballVel.x = cos(PONG_ballAngle);
       PONG_ballVel.y = sin(PONG_ballAngle);
       PONG_p2Score++;
-      setConsoleColor(COLOR_GREEN);
+      set_text_color(COLOR_GREEN);
       mvprintw(1, WIDTH * 0.75, "%d", PONG_p2Score);
-      setConsoleColor(COLOR_WHITE);
+      set_text_color(COLOR_WHITE);
     }
   }
   if (PONG_ballPos.y + PONG_BALL_SPEED * PONG_ballVel.y * dt_seconds >= HEIGHT)
@@ -216,9 +202,9 @@ void PONG_render()
       {
         if (buffer[y][x] != '1')
         {
-          setConsoleColor(COLOR_CYAN);
+          set_text_color(COLOR_CYAN);
           mvprintw(y, x, "%c", BLOCK);
-          setConsoleColor(COLOR_WHITE);
+          set_text_color(COLOR_WHITE);
         }
         buffer[y][x] = '1';
       }
@@ -226,9 +212,9 @@ void PONG_render()
       {
         if (buffer[y][x] != '2')
         {
-          setConsoleColor(COLOR_GREEN);
+          set_text_color(COLOR_GREEN);
           mvprintw(y, x, "%c", BLOCK);
-          setConsoleColor(COLOR_WHITE);
+          set_text_color(COLOR_WHITE);
         }
         buffer[y][x] = '2';
       }

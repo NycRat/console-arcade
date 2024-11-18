@@ -1,32 +1,14 @@
+#include "snake.h"
 #include "utils.h"
-#define SNAKE_DELAY 100
+#include <ncurses.h>
+#include <stdlib.h>
+#include <sys/time.h>
 
-void SNAKE_initialize();
-void SNAKE_update();
-void SNAKE_render();
-void SNAKE_processInput();
-
-enum directions
-{
-  None,
-  Up,
-  Down,
-  Left,
-  Right
-};
-
-struct SNAKE_part
-{
-  struct Vector2 pos;
-  enum directions direction;
-};
-
-struct SNAKE_snake
-{
-  struct SNAKE_part *parts;
-  int size;
-  int maxSize;
-};
+enum directions SNAKE_moveBuffer[3];
+int SNAKE_moveAddIndex = 0;
+struct Vector2 SNAKE_applePos;
+struct SNAKE_snake SNAKE_snake;
+short SNAKE_keysPressed[4];
 
 void add(struct SNAKE_snake *snake)
 {
@@ -49,12 +31,6 @@ void add(struct SNAKE_snake *snake)
       snake->parts[snake->size - 1].pos.y - (tempDirection == Down) + (tempDirection == Up);
   snake->size++;
 }
-
-enum directions SNAKE_moveBuffer[3];
-int SNAKE_moveAddIndex;
-struct Vector2 SNAKE_applePos;
-struct SNAKE_snake SNAKE_snake;
-short SNAKE_keysPressed[4];
 
 int SNAKE_run()
 {
@@ -117,7 +93,7 @@ void SNAKE_initialize()
   SNAKE_applePos.x = (rand() % (WIDTH - 4)) / 4;
   SNAKE_applePos.y = (rand() % (HEIGHT - 4)) / 2;
 
-  disposeBuffer();
+  dispose_buffer();
   cls();
 }
 
@@ -134,7 +110,7 @@ void SNAKE_addMove(enum directions direction)
     {
       previousDirection = SNAKE_snake.parts[0].direction;
     }
-    if (previousDirection <= 2 && direction > 2 || previousDirection > 2 && direction <= 2)
+    if ((previousDirection <= 2 && direction > 2) || (previousDirection > 2 && direction <= 2))
     {
       SNAKE_moveBuffer[SNAKE_moveAddIndex] = direction;
       SNAKE_moveAddIndex++;
@@ -279,13 +255,11 @@ void SNAKE_processInput()
 
 void SNAKE_render()
 {
-  short hasSnake = 0;
   cls();
   for (int y = 0; y < HEIGHT / 2; y++)
   {
     for (int x = 0; x < WIDTH / 4; x++)
     {
-      hasSnake = 0;
       for (int i = 0; i < SNAKE_snake.size; i++)
       {
         if (x == SNAKE_snake.parts[i].pos.x && y == SNAKE_snake.parts[i].pos.y)
@@ -295,30 +269,17 @@ void SNAKE_render()
           // }
           mvprintw(y * 2, x * 4, "%c%c%c%c", BLOCK, BLOCK, BLOCK, BLOCK);
           mvprintw(y * 2 + 1, x * 4, "%c%c%c%c", BLOCK, BLOCK, BLOCK, BLOCK);
-          hasSnake = 1;
           break;
         }
       }
-      // if (!hasSnake) {
-      //   if (buffer[y][x] == 'L') {
-      //     buffer[y][x] = ' ';
-      //     mvprintw(y * 2, x * 4, "    ");
-      //     mvprintw(y * 2 + 1, x * 4, "    ");
-      //   }
-      //   if (buffer[y][x] == '#') {
-      //     buffer[y][x] = 'L';
-      //     mvprintw(y * 2, x * 4, "    ");
-      //     mvprintw(y * 2 + 1, x * 4, "    ");
-      //   }
-      // }
     }
   }
 
-  setConsoleColor(COLOR_RED);
+  set_text_color(COLOR_RED);
   mvprintw(SNAKE_applePos.y * 2, SNAKE_applePos.x * 4, "%c%c%c%c", BLOCK, BLOCK, BLOCK, BLOCK);
   mvprintw(SNAKE_applePos.y * 2 + 1, SNAKE_applePos.x * 4, "%c%c%c%c", BLOCK, BLOCK, BLOCK, BLOCK);
 
-  setConsoleColor(COLOR_WHITE);
+  set_text_color(COLOR_WHITE);
   mvprintw(0, 0, "SNAKE LENGTH: %d", SNAKE_snake.size);
 
   refresh();

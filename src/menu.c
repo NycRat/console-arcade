@@ -1,17 +1,6 @@
+#include "menu.h"
 #include "utils.h"
-
-// int MENU_run()
-// {
-//   MENU_initialize("ARCADE", "CASINO", "SORTING VISUALIZER");
-//   while (running)
-//   {
-//     if (MENU_processInput(ARCADE_run, CASINO_run, SV_run))
-//     {
-//       MENU_initialize("ARCADE", "CASINO", "SORTING VISUALIZER");
-//     }
-//     MENU_render();
-//   }
-// }
+#include <ncurses.h>
 
 int MENU_processInput(int (*f1)(), int (*f2)(), int (*f3)())
 {
@@ -92,9 +81,9 @@ void MENU_initialize(char *o1, char *o2, char *o3)
 
   option = 0;
   running = 1;
-  disposeBuffer();
+  dispose_buffer();
   cls();
-  setConsoleColor(COLOR_WHITE);
+  set_text_color(COLOR_WHITE);
 
   for (int i = 0; i < 4; i++)
   {
@@ -112,7 +101,7 @@ void MENU_render()
     {
       tempBlockChar = '*';
       tempColour = 'G';
-      setConsoleColor(COLOR_GREEN);
+      set_text_color(COLOR_GREEN);
     }
 
     if (buffer[15 + b * 4][WIDTH / 4] != tempColour)
@@ -138,6 +127,6 @@ void MENU_render()
         buffer[y][x] = tempColour;
       }
     }
-    setConsoleColor(COLOR_WHITE);
+    set_text_color(COLOR_WHITE);
   }
 }

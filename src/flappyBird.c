@@ -1,29 +1,17 @@
+#include "flappyBird.h"
 #include "utils.h"
-
-#define FB_PIPE_GAP 6
-#define FB_PIPE_SPEED 20.0
-#define FB_PIPE_SIZE 6
-#define FB_NUM_PIPES 3
-#define FB_GRAVITY 15.0
-#define FB_JUMP_DELAY 0.5
-#define FB_MAX_VELOCITY 25.0
-#define FB_JUMP_VELOCITY 15.0
+#include <ncurses.h>
+#include <stdlib.h>
+#include <sys/time.h>
 
 double FB_pipeY[FB_NUM_PIPES];
 double FB_pipeX[FB_NUM_PIPES];
 short FB_pipeCanScore[FB_NUM_PIPES];
-
 double FB_playerY = HEIGHT / 2.0;
 double FB_playerVelY = 0;
-
 double FB_jumpCD = FB_JUMP_DELAY;
 short FB_keyPressed = 0;
-
 int FB_score = 0;
-
-void FB_render();
-void FB_update();
-void FB_initialize();
 
 int FB_run()
 {
@@ -88,12 +76,12 @@ int FB_run()
 void FB_initialize()
 {
   running = 1;
-  disposeBuffer();
+  dispose_buffer();
   cls();
   FB_playerY = HEIGHT / 2.0;
   FB_playerVelY = 0;
-  FB_playerY = HEIGHT / 2.0;
-  FB_playerVelY = 0;
+  FB_jumpCD = FB_JUMP_DELAY;
+  FB_keyPressed = 0;
   FB_score = 0;
 
   srand(time(NULL));
@@ -179,17 +167,15 @@ void FB_render()
       }
       else
       {
-        short pipeHere = 0;
         for (int i = 0; i < FB_NUM_PIPES; i++)
         {
           if (x > FB_pipeX[i] - FB_PIPE_SIZE / 2.0 && x <= FB_pipeX[i] + FB_PIPE_SIZE / 2.0)
           {
             if (y <= FB_pipeY[i] || y > FB_pipeY[i] + FB_PIPE_GAP)
             {
-              setConsoleColor(COLOR_GREEN);
+              set_text_color(COLOR_GREEN);
               mvprintw(y, x, "%c", BLOCK);
-              setConsoleColor(COLOR_WHITE);
-              pipeHere = 1;
+              set_text_color(COLOR_WHITE);
               break;
             }
           }
