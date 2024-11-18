@@ -167,8 +167,7 @@ void SNAKE_update() {
     return;
   }
 
-  if (snakeHeadPos.x == SNAKE_applePos.x &&
-      snakeHeadPos.y == SNAKE_applePos.y) // eats apple
+  if (snakeHeadPos.x == SNAKE_applePos.x && snakeHeadPos.y == SNAKE_applePos.y) // eats apple
   {
     mvprintw(SNAKE_applePos.y, SNAKE_applePos.x, "    ");
     mvprintw(SNAKE_applePos.y + 1, SNAKE_applePos.x, "    ");

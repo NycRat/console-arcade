@@ -1,3 +1,5 @@
+#include "utils.h"
+
 #include "arcadeMenu.h"
 #include "flappyBird.h"
 #include "menu.h"
