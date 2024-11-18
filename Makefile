@@ -1,5 +1,8 @@
 all:
-	gcc -std=c17 -o main.o ./src/main.c
+	gcc src/main.c -o main.o -lncurses
 
 clean:
-	rm ./main.o
+	rm ./**/*.c-E ./**/*.h-E ./**/*.o ./**/*.exe
+
+run:
+	./main.o
