@@ -37,8 +37,10 @@ void dispose_buffer()
 void avah_sleep(int millis)
 {
 #ifdef _WIN32
-  Sleep(millis);
+  /* Sleep(millis); */
+  napms(millis);
 #else
-  usleep(millis * 1000);
+  /* usleep(millis * 1000); */
+  napms(millis);
 #endif
 }

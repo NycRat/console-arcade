@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Iinclude
+CFLAGS = -Wall -Wextra -Iinclude -std=c17
 
 LIBS = -lncurses
 SRC = $(wildcard src/*.c)
