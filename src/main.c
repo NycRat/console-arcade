@@ -8,7 +8,8 @@
 
 #include <ncurses.h>
 
-int main() {
+int main()
+{
   initscr();
   cbreak();
   noecho();
@@ -17,16 +18,15 @@ int main() {
 
   // INIT COLOR
   start_color();
-  init_pair(BLACK, COLOR_BLACK, COLOR_BLACK);
-  init_pair(RED, COLOR_RED, COLOR_BLACK);
-  init_pair(GREEN, COLOR_GREEN, COLOR_BLACK);
-  init_pair(YELLOW, COLOR_YELLOW, COLOR_BLACK);
-  init_pair(BLUE, COLOR_BLUE, COLOR_BLACK);
-  init_pair(MAGENTA, COLOR_MAGENTA, COLOR_BLACK);
-  init_pair(CYAN, COLOR_CYAN, COLOR_BLACK);
-  init_pair(WHITE, COLOR_WHITE, COLOR_BLACK);
+  int colors[] = {COLOR_BLACK, COLOR_RED,     COLOR_GREEN, COLOR_YELLOW,
+                  COLOR_BLUE,  COLOR_MAGENTA, COLOR_CYAN,  COLOR_WHITE};
 
-  attron(COLOR_PAIR(WHITE));
+  for (int i = 0; i < 8; i++)
+  {
+    init_pair(colors[i], colors[i], COLOR_BLACK);
+  }
+
+  attron(COLOR_PAIR(COLOR_WHITE));
 
   ARCADE_run();
 

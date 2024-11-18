@@ -7,12 +7,15 @@ int PONG_run();
 int FB_run();
 int SNAKE_run();
 
-int ARCADE_run() {
+int ARCADE_run()
+{
   ARCADE_initialize();
   refresh();
-  while (running) {
+  while (running)
+  {
     avah_sleep(1);
-    if (MENU_processInput(PONG_run, FB_run, SNAKE_run)) {
+    if (MENU_processInput(PONG_run, FB_run, SNAKE_run))
+    {
       ARCADE_initialize();
     }
     MENU_render();
@@ -23,9 +26,10 @@ int ARCADE_run() {
   return 0;
 }
 
-void ARCADE_initialize() {
+void ARCADE_initialize()
+{
   MENU_initialize("PONG", "FLAPPY BIRD", "SNAKE");
-  setConsoleColor(CYAN);
+  setConsoleColor(COLOR_CYAN);
 
   const char arcade_graphic[] =
 #include "menuGraphic.txt"
@@ -33,6 +37,6 @@ void ARCADE_initialize() {
 
   mvprintw(2, 0, arcade_graphic);
 
-  setConsoleColor(WHITE);
+  setConsoleColor(COLOR_WHITE);
   mvprintw(HEIGHT - 1, WIDTH - 32, "Press [Q] to exit any game");
 }

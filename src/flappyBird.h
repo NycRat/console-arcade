@@ -25,27 +25,35 @@ void FB_render();
 void FB_update();
 void FB_initialize();
 
-int FB_run() {
+int FB_run()
+{
   FB_initialize();
-  while (running) {
+  while (running)
+  {
     gettimeofday(&begin, NULL); // get begin of frame
     FB_update();
     FB_render();
 
     int c = getch();
-    if (c == 'q') {
+    if (c == 'q')
+    {
       return 0;
     }
-    if (c == ' ') {
-      if (!FB_keyPressed) {
+    if (c == ' ')
+    {
+      if (!FB_keyPressed)
+      {
         FB_keyPressed = 1;
 
-        if (FB_jumpCD <= 0) {
+        if (FB_jumpCD <= 0)
+        {
           FB_playerVelY = -FB_JUMP_VELOCITY;
           FB_jumpCD = FB_JUMP_DELAY;
         }
       }
-    } else {
+    }
+    else
+    {
       FB_keyPressed = 0;
     }
 
@@ -53,20 +61,22 @@ int FB_run() {
 
     gettimeofday(&end, NULL);
 
-    dt_seconds =
-        end.tv_sec - begin.tv_sec + (end.tv_usec - begin.tv_usec) / 1000000.0;
+    dt_seconds = end.tv_sec - begin.tv_sec + (end.tv_usec - begin.tv_usec) / 1000000.0;
     mvprintw(1, 0, "dt in seconds: %f", dt_seconds);
   }
 
   mvprintw(0, 0, "Your Score: %d\n", FB_score);
   mvprintw(1, 0, "Press [R] to play again");
   mvprintw(2, 0, "Press [Q] to quit");
-  while (1) {
+  while (1)
+  {
     int c = getch();
-    if (c == 'r') {
+    if (c == 'r')
+    {
       break;
     }
-    if (c == 'q') {
+    if (c == 'q')
+    {
       return 0;
     }
     avah_sleep(1);
@@ -75,7 +85,8 @@ int FB_run() {
   return 0;
 }
 
-void FB_initialize() {
+void FB_initialize()
+{
   running = 1;
   disposeBuffer();
   cls();
@@ -87,7 +98,8 @@ void FB_initialize() {
 
   srand(time(NULL));
 
-  for (int i = 0; i < FB_NUM_PIPES; i++) {
+  for (int i = 0; i < FB_NUM_PIPES; i++)
+  {
     FB_pipeX[i] = WIDTH + i * 40;
     FB_pipeY[i] = rand() % (HEIGHT - FB_PIPE_GAP - 8) + 4;
     FB_pipeCanScore[i] = 1;
@@ -95,42 +107,55 @@ void FB_initialize() {
   mvprintw(0, 0, "Your Score: 0");
 }
 
-void FB_update() {
-  for (int i = 0; i < FB_NUM_PIPES; i++) {
+void FB_update()
+{
+  for (int i = 0; i < FB_NUM_PIPES; i++)
+  {
     FB_pipeX[i] -= FB_PIPE_SPEED * dt_seconds;
-    if (FB_pipeX[i] <= -FB_PIPE_SIZE / 2.0) {
+    if (FB_pipeX[i] <= -FB_PIPE_SIZE / 2.0)
+    {
       FB_pipeX[i] = WIDTH + FB_PIPE_SIZE;
       FB_pipeY[i] = rand() % (HEIGHT - FB_PIPE_GAP - 8) + 4;
       FB_pipeCanScore[i] = 1;
     }
   }
 
-  if (FB_jumpCD > 0) {
+  if (FB_jumpCD > 0)
+  {
     FB_jumpCD -= dt_seconds;
   }
   FB_playerVelY += FB_GRAVITY * dt_seconds;
-  if (FB_playerVelY > FB_MAX_VELOCITY) {
+  if (FB_playerVelY > FB_MAX_VELOCITY)
+  {
     FB_playerVelY = FB_MAX_VELOCITY;
   }
 
   FB_playerY += FB_playerVelY * dt_seconds;
-  if (FB_playerY <= 0) {
+  if (FB_playerY <= 0)
+  {
     FB_playerY = 0;
     FB_playerVelY = FB_MAX_VELOCITY;
   }
-  if (FB_playerY >= HEIGHT - 1) {
+  if (FB_playerY >= HEIGHT - 1)
+  {
     FB_playerVelY = 0;
     FB_playerY = HEIGHT - 1;
     running = 0;
   }
-  for (int i = 0; i < 3; i++) {
-    if (FB_pipeX[i] - FB_PIPE_SIZE / 2.0 <= 10) {
-      if (FB_pipeX[i] + FB_PIPE_SIZE / 2.0 > 10) {
-        if (FB_playerY <= FB_pipeY[i] ||
-            FB_playerY > FB_pipeY[i] + FB_PIPE_GAP) {
+  for (int i = 0; i < 3; i++)
+  {
+    if (FB_pipeX[i] - FB_PIPE_SIZE / 2.0 <= 10)
+    {
+      if (FB_pipeX[i] + FB_PIPE_SIZE / 2.0 > 10)
+      {
+        if (FB_playerY <= FB_pipeY[i] || FB_playerY > FB_pipeY[i] + FB_PIPE_GAP)
+        {
           running = 0;
-        } else {
-          if (FB_pipeCanScore[i]) {
+        }
+        else
+        {
+          if (FB_pipeCanScore[i])
+          {
             FB_score++;
             FB_pipeCanScore[i] = 0;
           }
@@ -141,21 +166,29 @@ void FB_update() {
   }
 }
 
-void FB_render() {
+void FB_render()
+{
   cls();
-  for (int y = 0; y < HEIGHT; y++) {
-    for (int x = 0; x < WIDTH; x++) {
-      if (x == 10 && y == (int)FB_playerY) {
+  for (int y = 0; y < HEIGHT; y++)
+  {
+    for (int x = 0; x < WIDTH; x++)
+    {
+      if (x == 10 && y == (int)FB_playerY)
+      {
         mvprintw(y, x, "%c", BLOCK);
-      } else {
+      }
+      else
+      {
         short pipeHere = 0;
-        for (int i = 0; i < FB_NUM_PIPES; i++) {
-          if (x > FB_pipeX[i] - FB_PIPE_SIZE / 2.0 &&
-              x <= FB_pipeX[i] + FB_PIPE_SIZE / 2.0) {
-            if (y <= FB_pipeY[i] || y > FB_pipeY[i] + FB_PIPE_GAP) {
-              setConsoleColor(GREEN);
+        for (int i = 0; i < FB_NUM_PIPES; i++)
+        {
+          if (x > FB_pipeX[i] - FB_PIPE_SIZE / 2.0 && x <= FB_pipeX[i] + FB_PIPE_SIZE / 2.0)
+          {
+            if (y <= FB_pipeY[i] || y > FB_pipeY[i] + FB_PIPE_GAP)
+            {
+              setConsoleColor(COLOR_GREEN);
               mvprintw(y, x, "%c", BLOCK);
-              setConsoleColor(WHITE);
+              setConsoleColor(COLOR_WHITE);
               pipeHere = 1;
               break;
             }
